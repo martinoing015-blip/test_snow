@@ -15,7 +15,7 @@ var P = 'u_sol_mas_ent_mcld_';
 gs.print('DRY_RUN = ' + DRY_RUN);
 function varRec(name) {
     var v = new GlideRecord('item_option_new'); v.addQuery('name', name);
-    v.addQuery('cat_item', ITEM_ID).addOrCondition('variable_set.sys_id', 'IN', setIds()); v.query();
+    v.addQuery('cat_item', ITEM_ID).addOrCondition('variable_set', 'IN', setIds()); v.query();
     return v.next() ? v : null;
 }
 var _sets = null;
