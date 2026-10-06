@@ -99,7 +99,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - Campos responsables Unix no se autollenan (usar BCHDatosUsuarioAjax).
   - Seguir comparando con Remedy por camino (Crear Windows/BD/Aplicativos, Modificar, Eliminar).
 
-### 4.9 Solicitud Masiva Entorno Multicloud (`31c840631be3325058f65425604bcb53`, `u_sol_mas_ent_mcld_`) — EN CURSO
+### 4.9 Solicitud Masiva Entorno Multicloud (`31c840631be3325058f65425604bcb53`, `u_sol_mas_ent_mcld_`) — TERMINADO (pendiente pruebas finales)
 - Caducidad Vigencia: en Remedy es fecha y hora; la nuestra era solo fecha. Script entregado para pasar `u_sol_mas_ent_mcld_caducidad_vigencia` a Fecha/hora (tipo 10) → **confirmar si se corrió en false** (ver `scripts/multicloud_caducidad_fecha_hora.js`).
 - En AWS y GCP, Caducidad Vigencia también es solo fecha: si en Remedy tienen hora, aplicar el mismo cambio.
 - Caducidad Vigencia ya se ve con hora en el portal (cambio aplicado).
@@ -115,6 +115,8 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Corrección 2 (`scripts/multicloud_rol_admin_gcp.js`, **pendiente correr**): `requiere_rol_admin` vuelve a Si/No (Azure/AWS/OCI); nueva `requiere_rol_admin_gcp` (Consola/Dominio, opciones movidas) con policy "Mostrar - ¿Requiere rol administrativo? (GCP)"; Posee T1 con rol=si o rol_gcp=consola; matriz GCP con rol_gcp=dominio; matrices Azure/AWS/OCI inactivas de nuevo; nuevo onChange `SMMC_LIMPIAR_ROL_GCP`.
 - Se ignora la línea "acuerdo de atención de 7 días hábiles" de Remedy (decisión del usuario).
 - Marcador de client scripts de este catálogo: `SMMC_`.
+- Flow (Flujo I, publicado) verificado con `scripts/diag_flow_multicloud.js`: solo usa `accion_requerida` (values sin cambio) y la célula del set; no tiene paso de tarea de catálogo con lista de variables → **no hay que cambiar el Flow**.
+- Texto planilla: `planilla/multicloud.md`.
 - Diagnóstico solo lectura: `scripts/diag_multicloud_31c84063.js`.
 - Corrección 2 aplicada (la policy "(GCP)" existe).
 - Remedy, Modificación: mismo comportamiento que Creación (Ambiente Cloud → rol → T1/matriz, Vigencia, Caducidad). Script `scripts/multicloud_modificacion_como_creacion.js` (policies con accion=Creación O Modificación). **Pendiente correr.**
