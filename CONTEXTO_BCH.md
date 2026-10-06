@@ -110,10 +110,13 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - Link de la descripción: Remedy "Alto Privilegio T1, T2" vs ServiceNow "T1".
   - Pregunta final: Remedy "¿…asociada a un proyecto ágil?" vs ServiceNow "¿…asociada a una célula?" (viene del set; misma duda BCH que 4.6).
   - Remedy escribe "Consola Admnistración" (typo); en ServiceNow va bien escrito.
-- Corrección: `scripts/multicloud_rol_admin_como_remedy.js` (opciones nuevas `consola_administracion` / `dominio_datos`, si/no inactivas; policies aceptan también rol=si por RITM antiguos; matrices reactivadas con policy por ambiente; orden 100 en 100 y set en 1600; onChange limpian matrices; Solo lectura; link T1, T2). **Pendiente correr.**
+- Corrección 1 aplicada (`scripts/multicloud_rol_admin_como_remedy.js`): opciones Consola/Dominio, matrices, orden, link T1, T2.
+- Remedy confirma que **solo GCP** usa Consola Administración / Dominio de datos; Azure / AWS / OCI siguen con Si / No, y solo GCP pide matriz.
+- Corrección 2 (`scripts/multicloud_rol_admin_gcp.js`, **pendiente correr**): `requiere_rol_admin` vuelve a Si/No (Azure/AWS/OCI); nueva `requiere_rol_admin_gcp` (Consola/Dominio, opciones movidas) con policy "Mostrar - ¿Requiere rol administrativo? (GCP)"; Posee T1 con rol=si o rol_gcp=consola; matriz GCP con rol_gcp=dominio; matrices Azure/AWS/OCI inactivas de nuevo; nuevo onChange `SMMC_LIMPIAR_ROL_GCP`.
+- Se ignora la línea "acuerdo de atención de 7 días hábiles" de Remedy (decisión del usuario).
 - Marcador de client scripts de este catálogo: `SMMC_`.
 - Diagnóstico solo lectura: `scripts/diag_multicloud_31c84063.js`.
-- Esperando capturas de Remedy: Dominio de datos con Azure / AWS / OCI (texto de la matriz), Modificación y Eliminación.
+- Esperando capturas de Remedy: Modificación y Eliminación.
 
 ### 4.10 Catálogo `6533bf811b140750d4f1a756624bcb94` — POR ANALIZAR
 - Se entregó el script de diagnóstico con este ITEM_ID. **Falta el output** y confirmar qué catálogo es.
