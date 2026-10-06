@@ -118,7 +118,8 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Diagnóstico solo lectura: `scripts/diag_multicloud_31c84063.js`.
 - Corrección 2 aplicada (la policy "(GCP)" existe).
 - Remedy, Modificación: mismo comportamiento que Creación (Ambiente Cloud → rol → T1/matriz, Vigencia, Caducidad). Script `scripts/multicloud_modificacion_como_creacion.js` (policies con accion=Creación O Modificación). **Pendiente correr.**
-- Esperando capturas de Remedy: Eliminación.
+- Remedy, Eliminación: Ambiente → (Azure/AWS/OCI) ¿Posee cuenta T1? (Si → Indique cuenta T1) + "Indique rol a eliminar"; (GCP) solo "Indique rol a eliminar". Sin rol administrativo ni Vigencia. AWS asumido igual que Azure/OCI (sin captura).
+- Script `scripts/multicloud_eliminacion.js`: nueva `rol_eliminar`, policy "Mostrar - Indique rol a eliminar", Posee/Cuenta T1 con condición agrupada (rol=si OR rol_gcp=consola OR Eliminación) ^ (Azure/AWS/OCI OR rol_gcp=consola). **Pendiente correr.**
 
 ### 4.10 Catálogo `6533bf811b140750d4f1a756624bcb94` — POR ANALIZAR
 - Se entregó el script de diagnóstico con este ITEM_ID. **Falta el output** y confirmar qué catálogo es.
