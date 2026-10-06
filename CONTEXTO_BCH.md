@@ -103,16 +103,17 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Caducidad Vigencia: en Remedy es fecha y hora; la nuestra era solo fecha. Script entregado para pasar `u_sol_mas_ent_mcld_caducidad_vigencia` a Fecha/hora (tipo 10) → **confirmar si se corrió en false** (ver `scripts/multicloud_caducidad_fecha_hora.js`).
 - En AWS y GCP, Caducidad Vigencia también es solo fecha: si en Remedy tienen hora, aplicar el mismo cambio.
 - Caducidad Vigencia ya se ve con hora en el portal (cambio aplicado).
-- Diferencias vistas con Remedy (Creación, GCP), 06-10:
-  - "¿Requiere rol administrativo?": Remedy = Si / No; ServiceNow = Consola Administración / Dominio de datos.
-  - "Indique nombre de matriz GCP" (sale con Dominio de datos): no aparece en la captura de Remedy.
-  - En Remedy, con Si aparece "¿Posee cuenta T1?". En ServiceNow aparece con Consola Administración, y con Si muestra "Indique cuenta T1".
-  - Cantidad de Usuarios sale en rojo con "Rellene este campo" apenas carga (en Remedy no).
-  - Pregunta final: Remedy "¿Esta solicitud está asociada a una célula?" vs ServiceNow "...a un proyecto ágil?" (igual que en 4.6).
-  - Texto del link: Remedy "Alto Privilegio T1" vs ServiceNow "T1, T2".
-  - Revisar si el texto de la opción dice "Admnistración" (typo).
+- Diferencias con Remedy (Creación, GCP), 06-10 (ojo: en las capturas Remedy es el portal con "Enviar petición" naranjo; ServiceNow muestra "-- Ninguno --" y el panel "Información obligatoria"):
+  - "¿Requiere rol administrativo?": Remedy = Consola Administración / Dominio de datos; ServiceNow = Si / No.
+  - Remedy: Consola Administración → ¿Posee cuenta T1? (Si → Indique cuenta T1). Dominio de datos → "Indique nombre de matriz GCP".
+  - En ServiceNow `matriz_azure/aws/oci/gcp` estaban inactivas con policies de condición rota (`accion=seleccione_ambiente_cloud`).
+  - Link de la descripción: Remedy "Alto Privilegio T1, T2" vs ServiceNow "T1".
+  - Pregunta final: Remedy "¿…asociada a un proyecto ágil?" vs ServiceNow "¿…asociada a una célula?" (viene del set; misma duda BCH que 4.6).
+  - Remedy escribe "Consola Admnistración" (typo); en ServiceNow va bien escrito.
+- Corrección: `scripts/multicloud_rol_admin_como_remedy.js` (opciones nuevas `consola_administracion` / `dominio_datos`, si/no inactivas; policies aceptan también rol=si por RITM antiguos; matrices reactivadas con policy por ambiente; orden 100 en 100 y set en 1600; onChange limpian matrices; Solo lectura; link T1, T2). **Pendiente correr.**
+- Marcador de client scripts de este catálogo: `SMMC_`.
 - Diagnóstico solo lectura: `scripts/diag_multicloud_31c84063.js`.
-- Esperando capturas de Remedy: GCP con rol No, Posee T1 Si/No, AWS, Azure, Modificación y Eliminación.
+- Esperando capturas de Remedy: Dominio de datos con Azure / AWS / OCI (texto de la matriz), Modificación y Eliminación.
 
 ### 4.10 Catálogo `6533bf811b140750d4f1a756624bcb94` — POR ANALIZAR
 - Se entregó el script de diagnóstico con este ITEM_ID. **Falta el output** y confirmar qué catálogo es.
