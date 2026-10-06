@@ -55,10 +55,13 @@ else {
         // Flows (values comprimidos)
         ['sys_hub_action_instance_v2', 'sys_hub_flow_logic_instance_v2', 'sys_hub_trigger_instance_v2'].forEach(function (t) {
             var a = new GlideRecord(t); if (!a.isValid()) return;
-            a.query();
+            a.addNotNullQuery('values'); a.query();
             while (a.next()) {
-                var txt = '';
-                try { txt = GlideCompressionUtil.expandToString(GlideStringUtil.base64DecodeAsBytes(a.getValue('values'))); } catch (e) { txt = a.getValue('values') || ''; }
+                var raw = a.getValue('values') || '', txt = raw;
+                // solo descomprimir gzip en base64 (empieza con H4sI); si no, Java imprime un EOFException por registro
+                if (raw.indexOf('H4sI') == 0) {
+                    try { txt = GlideCompressionUtil.expandToString(GlideStringUtil.base64DecodeAsBytes(raw)); } catch (e) { txt = raw; }
+                }
                 if (txt.indexOf(nom) > -1) { total++; gs.print('⚠️ Flow: ' + a.getDisplayValue('flow') + ' [' + t + ' ' + a.getUniqueValue() + ']'); }
             }
         });

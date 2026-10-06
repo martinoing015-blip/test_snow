@@ -2,7 +2,9 @@
 
 Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de Chile), instancia de desarrollo `bancochileciberdev`. Objetivo: dejar los ítems de catálogo de ServiceNow iguales a los formularios de Remedy. El seguimiento se lleva en una planilla (Elemento de catálogo / Vínculo / Estado / Responsable / Modificación), repartida entre Martín, Kathy y Estefi. Go Live: 02-10-2026 (**confirmar si se movió y qué update sets se promovieron**).
 
-Última actualización: 06-10-2026.
+Última actualización: 06-10-2026 (tarde).
+
+**Para una sesión nueva de IA:** leer este archivo completo, después `git log --oneline -20` en la rama `claude/test-0wf3rv`. Los scripts están en `scripts/` (índice en la sección 8) y los textos para la planilla en `planilla/`. El usuario corre todo a mano en ServiceNow y pega el output en el chat; la IA no tiene acceso a la instancia. El usuario escribe informal (chileno), con respuestas cortas y directas.
 
 ---
 
@@ -35,6 +37,10 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - **Reordenar variables**: al renumerar, recolocar también el `io_set_item.order` del ítem para que el set quede en la misma posición relativa (no toca el set).
 - `addQuery('question.cat_item', ...)` sobre question_choice NO funciona (campo inválido); filtrar por variable.
 - Scripts client callable (GlideAjax): si con usuario suplantado no responden, puede faltar ACL de client callable script include.
+- **"-- Ninguno --" en Opción múltiple (3)**: si se quita, el portal marca sola la primera opción. Para que parta vacía: onLoad con `g_form.clearValue(...)` que corra **solo en catálogo** (applies_catalog=true, RITM y tarea en false; si no, borra lo elegido en el RITM).
+- El mensaje `Issuing query on invalid record to get value of element name (GlideElementTranslatedText)` en el output es un aviso inofensivo.
+- Al descomprimir `values` de Flows en todas las instancias, descomprimir solo los que empiezan con `H4sI` (gzip base64); si no, Java imprime un `EOFException` largo por cada registro y el output se vuelve inmanejable.
+- **Renombrar un catálogo**: Flow, trigger, policies, client scripts y el MAP de Wo Types van por sys_id y no se rompen. Se rompe lo que compare el nombre como texto (BR, notificaciones, SLA, reportes, condiciones de Flow, integraciones). El portal muestra la traducción es del nombre (`sys_translated_text`, fieldname `name`): actualizarla también. Los RITM antiguos conservan el nombre viejo.
 
 ## 3. Componentes reutilizables creados
 
@@ -132,12 +138,21 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 ### 4.10 Catálogo `6533bf811b140750d4f1a756624bcb94` — POR ANALIZAR
 - Se entregó el script de diagnóstico con este ITEM_ID. **Falta el output** y confirmar qué catálogo es.
 
-## 4.11 Action "Llenar Wo Types" (genérica, 75 catálogos)
+### 4.11 Action "Llenar Wo Types" (genérica, 75 catálogos)
 - Llena campos `u_wo_type_*` del RITM según un MAP por catálogo (no crea registro aparte).
 - Los catálogos que homologamos usan solo `requested_for.*` → nuestros cambios de variables no la afectan.
 - `scripts/diag_wo_types_variables.js` (06-10): los 25 paths `var.` / `ritm.` de otros catálogos existen y están activos (incluye `u_pg_campo_023`, que sí existe).
 - Pendiente revisar con quien armó el MAP: campos asignados dos veces (gana el último): T1/T2 y Matrices `u_wo_type_15` (queda `name`), Excepción RBAC `u_wo_type_15` (queda `manager.vip`) y `u_wo_type_06` (queda `title`), REDEC `u_wo_type_14` (queda `u_organizacion`).
 - Al inactivar o renombrar variables de un catálogo, revisar si aparece con `var.` en el MAP.
+
+### 4.12 Renombrar Usuario Interno/Externo (`a79c4c131b58cb1058f65425604bcb0d`, prefijo `u_ren_usr_int_ext_`, marcador `RENUSR_`) — EN CURSO
+- Pedido del usuario: armar el **Rut** igual que en Cyberark (4.7), autollenado con `BCHDatosUsuarioAjax`. En la captura, "Rut" sale como desplegable con "-- Ninguno --" y otros 4 campos en solo lectura.
+- Se entregó `scripts/diag_catalogo.js` con este ITEM_ID. **Falta el output** del diagnóstico para armar lo del Rut.
+- Tipo de Cuenta (`u_ren_usr_int_ext_tipo_cuenta`, Opción múltiple, opciones `active_directory` / `local`, obligatoria por policy, no por variable): el usuario ya sacó el "-- Ninguno --". Para que no parta marcada la primera opción: `scripts/renusr_tipo_cuenta_sin_seleccion.js` crea "onLoad - Tipo de Cuenta sin selección" (marcador `RENUSR_TIPO_CUENTA_VACIA`, solo catálogo). Dry run OK; **confirmar corrida en false y prueba en incógnito** (si igual se marca, poner la limpieza con un `setTimeout` corto).
+
+### 4.13 Habilitación de VPN para Colaborador Interno (`eeb095361b1336d0d4f1a756624bcb21`, Flujo C - Habilitacion_VPN_Colaborador_Interno) — CONSULTA
+- El usuario quiere cambiarle el nombre. Base y traducción es: "Habilitación de VPN para Colaborador Interno" (en el MAP de Wo Types figura como "Gestión VPN para Colaborador Interno"). Falta definir el nombre nuevo.
+- `scripts/buscar_uso_nombre_catalogo.js` (solo lectura) busca el nombre como texto en BR, Script Includes, notificaciones, SLA, reportes, client scripts, UI actions, propiedades, jobs, REST y Flows. La primera corrida se llenó de `EOFException` (ver aprendizajes); ya está corregido. **Volver a correrlo** y revisar cada uso antes de renombrar.
 
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
@@ -158,7 +173,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 8. Planilla.
 
 ## 6. Script de diagnóstico reutilizable (solo lectura)
-Cambiar `ITEM_ID`. Muestra variables (tipo, obligatoria, ayuda + traducción, opciones, marca `​`), sets con `io_set_item.order`, policies con condiciones IO: traducidas, client scripts (código; `PRINT_CODE=false` para acortar), chequeo de Solo lectura y variables usadas por el Flow. **Pendiente guardarlo en `scripts/`** (si no se tiene a mano, regenerarlo: "script de diagnóstico completo de catálogo con traducción de condiciones IO:").
+Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del ítem y de los sets (tipo, obligatoria, default, referencia / lookup, ayuda + traducción, opciones con traducción, marca `\u200B`), sets con `io_set_item.order`, policies con condiciones IO: traducidas y sus acciones, client scripts (código; `PRINT_CODE=false` para acortar), Script Includes llamados por GlideAjax y el Flow.
 
 ---
 
@@ -200,3 +215,22 @@ Cambiar `ITEM_ID`. Muestra variables (tipo, obligatoria, ayuda + traducción, op
 - Al cambiar textos, actualizar también la traducción al español.
 - Al cerrar cada catálogo: Modificación + Detalle técnico (nombrando variables, políticas y scripts creados, ajustados o inactivados) para la planilla.
 - En scripts de prueba que creen RITM, usar el usuario sys_id `43a9c5093bc703106977352eb3e45ab0` como previsto y para variables de usuario.
+
+---
+
+## 8. Índice de scripts (`scripts/`)
+| Script | Catálogo | Tipo | Estado |
+|---|---|---|---|
+| `diag_catalogo.js` | genérico (cambiar ITEM_ID) | solo lectura | usar en cada catálogo nuevo |
+| `buscar_uso_nombre_catalogo.js` | genérico (hoy VPN 4.13) | solo lectura | volver a correr |
+| `quitar_ninguno_variable.js` | genérico (hoy Renombrar Usuario) | modifica | en 4.12 no hizo falta (`include_none` ya en 0) |
+| `renusr_tipo_cuenta_sin_seleccion.js` | 4.12 | modifica | dry run OK, falta false |
+| `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
+| `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
+| `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
+| `multicloud_rol_admin_como_remedy.js` | 4.9 | modifica | aplicado (corrección 1) |
+| `multicloud_rol_admin_gcp.js` | 4.9 | modifica | aplicado (corrección 2) |
+| `multicloud_modificacion_como_creacion.js` | 4.9 | modifica | confirmar |
+| `multicloud_eliminacion.js` | 4.9 | modifica | dry run OK, confirmar false |
+| `prueba_multicloud_crear_tickets.js` | 4.9 | crea RITM | corrido (RITM0011087–0011092) |
+| `prueba_multicloud_revisar_tickets.js`, `prueba_multicloud_buscar_wo.js` | 4.9 | lectura (`APROBAR=true` aprueba) | revisar resultados |
