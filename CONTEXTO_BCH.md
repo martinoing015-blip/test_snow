@@ -102,7 +102,17 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 ### 4.9 Solicitud Masiva Entorno Multicloud (`31c840631be3325058f65425604bcb53`, `u_sol_mas_ent_mcld_`) — EN CURSO
 - Caducidad Vigencia: en Remedy es fecha y hora; la nuestra era solo fecha. Script entregado para pasar `u_sol_mas_ent_mcld_caducidad_vigencia` a Fecha/hora (tipo 10) → **confirmar si se corrió en false** (ver `scripts/multicloud_caducidad_fecha_hora.js`).
 - En AWS y GCP, Caducidad Vigencia también es solo fecha: si en Remedy tienen hora, aplicar el mismo cambio.
-- Esperando capturas de Remedy de Modificación y Eliminación.
+- Caducidad Vigencia ya se ve con hora en el portal (cambio aplicado).
+- Diferencias vistas con Remedy (Creación, GCP), 06-10:
+  - "¿Requiere rol administrativo?": Remedy = Si / No; ServiceNow = Consola Administración / Dominio de datos.
+  - "Indique nombre de matriz GCP" (sale con Dominio de datos): no aparece en la captura de Remedy.
+  - En Remedy, con Si aparece "¿Posee cuenta T1?". En ServiceNow aparece con Consola Administración, y con Si muestra "Indique cuenta T1".
+  - Cantidad de Usuarios sale en rojo con "Rellene este campo" apenas carga (en Remedy no).
+  - Pregunta final: Remedy "¿Esta solicitud está asociada a una célula?" vs ServiceNow "...a un proyecto ágil?" (igual que en 4.6).
+  - Texto del link: Remedy "Alto Privilegio T1" vs ServiceNow "T1, T2".
+  - Revisar si el texto de la opción dice "Admnistración" (typo).
+- Diagnóstico solo lectura: `scripts/diag_multicloud_31c84063.js`.
+- Esperando capturas de Remedy: GCP con rol No, Posee T1 Si/No, AWS, Azure, Modificación y Eliminación.
 
 ### 4.10 Catálogo `6533bf811b140750d4f1a756624bcb94` — POR ANALIZAR
 - Se entregó el script de diagnóstico con este ITEM_ID. **Falta el output** y confirmar qué catálogo es.
