@@ -130,12 +130,16 @@ else {
         if (bloquear) return;
         var cond = 'IO:' + ACC.getUniqueValue() + '=otorgar_modificar_acceso^IO:' + AMB.getUniqueValue() + '=' + m.cloud +
             '^IO:' + ROL_ID + '=dominio_datos^EQ';
-        var a = new GlideRecord('catalog_ui_policy_action');
-        a.addQuery('catalog_variable', 'IO:' + id); a.addQuery('ui_policy.catalog_item', ITEM_ID);
-        a.addQuery('ui_policy.short_description', '!=', 'Solo lectura'); a.query();
-        if (!a.next()) { gs.print('❌ ' + m.name + ': no se encontró su policy (avisar, no se crea)'); }
+        // ui_policy apunta a sys_ui_policy: no se puede filtrar por ui_policy.catalog_item, se valida después
+        var a = new GlideRecord('catalog_ui_policy_action'), pol = null;
+        a.addQuery('catalog_variable', 'IO:' + id); a.query();
+        while (a.next()) {
+            var cand = new GlideRecord('catalog_ui_policy');
+            if (cand.get(a.getValue('ui_policy')) && cand.getValue('catalog_item') == ITEM_ID &&
+                cand.getValue('short_description') != 'Solo lectura') { pol = cand; break; }
+        }
+        if (!pol) { gs.print('❌ ' + m.name + ': no se encontró su policy (avisar, no se crea)'); }
         else {
-            var pol = new GlideRecord('catalog_ui_policy'); pol.get(a.getValue('ui_policy'));
             gs.print('• policy "' + pol.getValue('short_description') + '" → "' + m.policy + '" | activa | orden ' + m.order +
                 ' | cond: accion=otorgar_modificar_acceso ^ ambiente=' + m.cloud + ' ^ rol=dominio_datos');
             pol.setValue('short_description', m.policy); pol.setValue('active', true); pol.setValue('order', m.order);
