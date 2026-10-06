@@ -119,6 +119,8 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - ⚠️ Rama "Otorgar o Modificar Acceso" (paso 8) compara nuestra acción solo con Creación → **Modificación no entra a ninguna rama**. Agregar OR `u_sol_mas_ent_mcld_accion_requerida = Modificación`.
   - Rama "Eliminar Acceso": condición 6 sobre nuestra variable sin value → quitar.
   - Revisar paso 31 (también lee nuestra acción). Confirmar con Remedy que Modificación lleva la misma aprobación. Cambio manual en Flow Designer + publicar.
+  - Decisión: los values de Acción **se quedan como están** (`otorgar_modificar_acceso` = Creación, `modificacion`, `eliminar_acceso`); se descartó pasarlos a `_acceso` porque obliga a tocar el Flow compartido y todo lo que lea el value.
+  - Pruebas: `scripts/prueba_multicloud_crear_tickets.js` (6 casos) y `scripts/prueba_multicloud_revisar_tickets.js` (Flow, aprobaciones, WO; `APROBAR=true` aprueba pendientes). Dry run OK.
   - Aprendizaje: el diagnóstico de Flow detecta qué variables se usan, pero no qué values se comparan; revisar las condiciones en Flow Designer cuando se agregan opciones.
 - Texto planilla: `planilla/multicloud.md`.
 - Diagnóstico solo lectura: `scripts/diag_multicloud_31c84063.js`.
