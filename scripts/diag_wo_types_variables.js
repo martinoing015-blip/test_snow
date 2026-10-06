@@ -50,8 +50,9 @@ function revisarCampos(tabla, campos) {
         if (!g.isValid()) return 'tabla ' + t + ' no existe';
         if (!g.isValidField(campos[i])) return 'campo ' + t + '.' + campos[i] + ' no existe';
         if (i < campos.length - 1) {
-            t = g.getElement(campos[i]).getReferenceTable();
-            if (!t) return t + '.' + campos[i] + ' no es referencia (no se puede seguir)';
+            var sig = g.getElement(campos[i]).getReferenceTable();
+            if (!sig) return t + '.' + campos[i] + ' no es referencia (no se puede seguir)';
+            t = sig;
         }
     }
     return '';
