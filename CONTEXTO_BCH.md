@@ -132,6 +132,13 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 ### 4.10 Catálogo `6533bf811b140750d4f1a756624bcb94` — POR ANALIZAR
 - Se entregó el script de diagnóstico con este ITEM_ID. **Falta el output** y confirmar qué catálogo es.
 
+## 4.11 Action "Llenar Wo Types" (genérica, 75 catálogos)
+- Llena campos `u_wo_type_*` del RITM según un MAP por catálogo (no crea registro aparte).
+- Los catálogos que homologamos usan solo `requested_for.*` → nuestros cambios de variables no la afectan.
+- `scripts/diag_wo_types_variables.js` (06-10): los 25 paths `var.` / `ritm.` de otros catálogos existen y están activos (incluye `u_pg_campo_023`, que sí existe).
+- Pendiente revisar con quien armó el MAP: campos asignados dos veces (gana el último): T1/T2 y Matrices `u_wo_type_15` (queda `name`), Excepción RBAC `u_wo_type_15` (queda `manager.vip`) y `u_wo_type_06` (queda `title`), REDEC `u_wo_type_14` (queda `u_organizacion`).
+- Al inactivar o renombrar variables de un catálogo, revisar si aparece con `var.` en el MAP.
+
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
 - Script de verificación solo lectura para 4.1, 4.2 y 4.8 (client scripts activos, estado de `clase_cta_unix`, texto de opciones de Vigencia).
