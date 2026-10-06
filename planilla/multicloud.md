@@ -9,7 +9,7 @@
 - Al cambiar Acción, Ambiente o Rol se limpian los campos que dependen de ellos.
 - El link de la descripción dice "Gestión de Cuenta con Alto Privilegio T1, T2", como en Remedy.
 - Todos los campos quedan en solo lectura en el RITM.
-- El Flow no cambia.
+- El Flow ahora considera Modificación en la rama "Otorgar o Modificar Acceso" (antes no pasaba por aprobación).
 
 ## Detalle
 Variables creadas: u_sol_mas_ent_mcld_requiere_rol_admin_gcp (Cuadro de selección: consola_administracion "Consola Administración", dominio_datos "Dominio de datos"), u_sol_mas_ent_mcld_rol_eliminar (Texto de una línea).
@@ -22,4 +22,4 @@ Políticas ajustadas (condición): "Mostrar - Seleccione ambiente Cloud" (Creaci
 Client scripts creados: onChange - Limpiar campos - Rol admin GCP (SMMC_LIMPIAR_ROL_GCP).
 Client scripts ajustados: onChange - Limpiar campos - Acción / Ambiente / Rol admin (campos a limpiar actualizados).
 Descripción: link "Gestión de Cuenta con Alto Privilegio T1, T2" (texto base y traducción es).
-Flow (Flujo I - Solicitud_Masiva_Entorno_Multicloud): sin cambios.
+Flow (Flujo I - Solicitud_Masiva_Entorno_Multicloud, compartido con AWS / GCP / Azure / OCI): en "Otorgar o Modificar Acceso" se agrega la condición u_sol_mas_ent_mcld_accion_requerida = Modificación (antes Modificación no entraba a ninguna rama); en "Eliminar Acceso" se quita la condición 6 vacía sobre u_sol_mas_ent_mcld_accion_requerida.

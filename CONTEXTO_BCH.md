@@ -99,7 +99,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - Campos responsables Unix no se autollenan (usar BCHDatosUsuarioAjax).
   - Seguir comparando con Remedy por camino (Crear Windows/BD/Aplicativos, Modificar, Eliminar).
 
-### 4.9 Solicitud Masiva Entorno Multicloud (`31c840631be3325058f65425604bcb53`, `u_sol_mas_ent_mcld_`) — TERMINADO (pendiente pruebas finales)
+### 4.9 Solicitud Masiva Entorno Multicloud (`31c840631be3325058f65425604bcb53`, `u_sol_mas_ent_mcld_`) — EN CURSO (falta Flow)
 - Caducidad Vigencia: en Remedy es fecha y hora; la nuestra era solo fecha. Script entregado para pasar `u_sol_mas_ent_mcld_caducidad_vigencia` a Fecha/hora (tipo 10) → **confirmar si se corrió en false** (ver `scripts/multicloud_caducidad_fecha_hora.js`).
 - En AWS y GCP, Caducidad Vigencia también es solo fecha: si en Remedy tienen hora, aplicar el mismo cambio.
 - Caducidad Vigencia ya se ve con hora en el portal (cambio aplicado).
@@ -115,7 +115,11 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Corrección 2 (`scripts/multicloud_rol_admin_gcp.js`, **pendiente correr**): `requiere_rol_admin` vuelve a Si/No (Azure/AWS/OCI); nueva `requiere_rol_admin_gcp` (Consola/Dominio, opciones movidas) con policy "Mostrar - ¿Requiere rol administrativo? (GCP)"; Posee T1 con rol=si o rol_gcp=consola; matriz GCP con rol_gcp=dominio; matrices Azure/AWS/OCI inactivas de nuevo; nuevo onChange `SMMC_LIMPIAR_ROL_GCP`.
 - Se ignora la línea "acuerdo de atención de 7 días hábiles" de Remedy (decisión del usuario).
 - Marcador de client scripts de este catálogo: `SMMC_`.
-- Flow (Flujo I, publicado) verificado con `scripts/diag_flow_multicloud.js`: solo usa `accion_requerida` (values sin cambio) y la célula del set; no tiene paso de tarea de catálogo con lista de variables → **no hay que cambiar el Flow**.
+- Flow (Flujo I, publicado, **compartido** con catálogos AWS / GCP / Azure / OCI): solo usa `accion_requerida` y la célula; no tiene paso de tarea con lista de variables.
+  - ⚠️ Rama "Otorgar o Modificar Acceso" (paso 8) compara nuestra acción solo con Creación → **Modificación no entra a ninguna rama**. Agregar OR `u_sol_mas_ent_mcld_accion_requerida = Modificación`.
+  - Rama "Eliminar Acceso": condición 6 sobre nuestra variable sin value → quitar.
+  - Revisar paso 31 (también lee nuestra acción). Confirmar con Remedy que Modificación lleva la misma aprobación. Cambio manual en Flow Designer + publicar.
+  - Aprendizaje: el diagnóstico de Flow detecta qué variables se usan, pero no qué values se comparan; revisar las condiciones en Flow Designer cuando se agregan opciones.
 - Texto planilla: `planilla/multicloud.md`.
 - Diagnóstico solo lectura: `scripts/diag_multicloud_31c84063.js`.
 - Corrección 2 aplicada (la policy "(GCP)" existe).
