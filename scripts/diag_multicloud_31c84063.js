@@ -38,7 +38,7 @@ function printVar(v, origen) {
     while (c.next()) {
         var txt = c.getValue('text'), es = trEs(txt);
         gs.print('      • ' + c.getValue('value') + ' = "' + txt + '"' + (es ? '  → es: "' + es + '"' : '') +
-            (txt && txt.indexOf('​') > -1 ? '  [\\u200B]' : '') + (c.getValue('inactive') == '1' ? ' (inactiva)' : ''));
+            (txt && txt.indexOf('\u200B') > -1 ? '  [\\u200B]' : '') + (c.getValue('inactive') == '1' ? ' (inactiva)' : ''));
     }
 }
 
