@@ -116,7 +116,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Se ignora la línea "acuerdo de atención de 7 días hábiles" de Remedy (decisión del usuario).
 - Marcador de client scripts de este catálogo: `SMMC_`.
 - Diagnóstico solo lectura: `scripts/diag_multicloud_31c84063.js`.
-- Corrección 2: confirmar que se corrió en false.
+- Corrección 2 aplicada (la policy "(GCP)" existe).
 - Remedy, Modificación: mismo comportamiento que Creación (Ambiente Cloud → rol → T1/matriz, Vigencia, Caducidad). Script `scripts/multicloud_modificacion_como_creacion.js` (policies con accion=Creación O Modificación). **Pendiente correr.**
 - Esperando capturas de Remedy: Eliminación.
 
