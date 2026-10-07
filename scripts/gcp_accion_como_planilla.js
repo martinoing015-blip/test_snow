@@ -7,7 +7,7 @@
  * El Flow no cambia: la rama "Otorgar o Modificar Acceso" ya entra con Creación (value otorgar_modificar_acceso)
  * y la de Eliminar compara eliminar_acceso. Las policies que aceptan "modificacion" quedan sin efecto, no molestan.
  * Traducción: si el texto nuevo tiene una traducción global distinta en sys_translated (ej. "Eliminar"),
- * se le agrega ​ al final para que el portal muestre el texto tal cual.
+ * se le agrega \u200B al final para que el portal muestre el texto tal cual.
  * Cuenta: ADMIN | DRY_RUN=true solo lectura | DRY_RUN=false MODIFICA DATOS
  * (scope Global, update set seleccionado, "Record for rollback?" marcado)
  */
@@ -16,7 +16,7 @@ var ITEM_ID = '0cd9733b1bfb3a5058f65425604bcb61';
 var VAR = 'u_gcp_accion_requerida';
 var TEXTOS = { otorgar_modificar_acceso: 'Otorgar/Modificar Acceso', eliminar_acceso: 'Eliminar Acceso' };
 var INACTIVAR = ['modificacion'];
-var ZW = '​';
+var ZW = '\u200B';
 
 gs.print('DRY_RUN = ' + DRY_RUN);
 function traduccion(txt) {
