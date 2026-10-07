@@ -236,6 +236,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `buscar_uso_nombre_catalogo.js` | genérico (hoy VPN 4.13) | solo lectura | volver a correr |
 | `quitar_ninguno_variable.js` | genérico (hoy Renombrar Usuario) | modifica | en 4.12 no hizo falta (`include_none` ya en 0) |
 | `renusr_tipo_cuenta_sin_seleccion.js` | 4.12 | modifica | dry run OK, falta false |
+| `diag_flow_catalogo.js` | genérico (hoy T0 4.14) | solo lectura | correr para T0 |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
