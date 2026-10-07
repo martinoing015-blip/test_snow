@@ -231,7 +231,12 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - Separador de usuarios distinto (";" vs ",").
   - La ayuda de `indicar_usrs` termina con un salto de línea.
   - Cantidad de usuarios es texto (¿número?).
-- Falta: planilla de Remedy y revisión.
+- Planilla Remedy 07-10: coincide en tipos y campos, salvo:
+  - Revocar sesión: la etiqueta es 'Indique Usuarios (separados por ";")'.
+  - Otros controles: **no tiene campo extra** (el nuestro pide "Indicar control…", confirmar si se deja).
+  - "Indique usuarios" (Control de vigencia) es una línea en la planilla (el nuestro es multilínea).
+  - "Detalles del requerimiento" figura como Selección múltiple (error de la planilla, se deja multilínea).
+- `scripts/cump_int_ajustes_planilla.js` (**pendiente dry run**): etiqueta de Revocar sin ayuda, borrar valor y nombres / orden de las policies, orden de 100 en 100.
 
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
@@ -314,6 +319,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `t2_usuario_dominio_y_caducidad.js` | 4.16 | modifica | dry run OK, falta false |
 | `win_pprod_hostname_y_adjunto.js` | 4.17 | modifica | aplicado (etiqueta luego reemplazada por ayuda) |
 | `win_pprod_hostname_como_ayuda.js` | 4.17 | modifica | pendiente dry run |
+| `cump_int_ajustes_planilla.js` | 4.18 | modifica | pendiente dry run |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
