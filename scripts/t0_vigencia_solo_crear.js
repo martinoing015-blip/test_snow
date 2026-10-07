@@ -3,7 +3,7 @@
  * 1) Vigencia deja de ser obligatoria en la variable (una variable obligatoria vacía no se puede ocultar)
  *    y la maneja la nueva policy "Mostrar - Vigencia" (accion=crear_cuenta → visible + obligatoria + borrar valor).
  * 2) Policy de Caducidad: condición accion=crear_cuenta ^ vigencia=definida, borrar valor, nombre con espacio.
- * 3) Opciones de Vigencia con ​ al final para que no salgan como Temporal / Permanente
+ * 3) Opciones de Vigencia con \u200B al final para que no salgan como Temporal / Permanente
  *    (traducción global de Kathy; no se toca). Los values no cambian.
  * 4) Orden de policies: Vigencia 100, Caducidad 200, Solo lectura 300.
  * Cuenta: ADMIN | DRY_RUN=true solo lectura | DRY_RUN=false MODIFICA DATOS
@@ -14,7 +14,7 @@ var ITEM_ID = '1767b1041ba3761458f65425604bcb71';
 var P = 'u_gest_cta_altpriv_t0_';
 var POL_VIG = 'Mostrar - Vigencia';
 var POL_CAD = 'Mostrar - Caducidad de la cuenta';
-var ZW = '​';
+var ZW = '\u200B';
 
 gs.print('DRY_RUN = ' + DRY_RUN);
 function save(gr) { if (!DRY_RUN) gr.update(); }
@@ -74,7 +74,7 @@ else {
     var ps = polRec('Solo lectura');
     if (ps && ps.getValue('order') != '300') { gs.print('\n   Solo lectura orden ' + ps.getValue('order') + ' → 300'); ps.setValue('order', 300); save(ps); }
 
-    // 3) Opciones con ​
+    // 3) Opciones con \u200B
     gs.print('\n3) Opciones de Vigencia');
     var c = new GlideRecord('question_choice'); c.addQuery('question', vig.getUniqueValue()); c.orderBy('order'); c.query();
     while (c.next()) {
