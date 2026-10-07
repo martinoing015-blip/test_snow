@@ -319,6 +319,16 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - Con el grupo pero tachados o fuera de la planilla: Cambio/Restablecimiento de contraseña (a8b17932), Cambio/Restablecimiento T1, T2 y Casillas (b79cc583), Acceso Citrix VDI Remoto (inactivo), "Habilitación de VPN para Colaborador Interno" d0bdf1ef (= Navegación Privilegiada, nombre base mal copiado), Solicitud Certificadores QA (823e4132).
 - Pendiente: que el usuario confirme qué pide la planilla (¿cambiar a XSOAR UASC? ¿sacar el grupo de los tachados? ¿agregar MFA?).
 
+### 4.25 Grupos de la planilla (filas "Falta" / "Falta (parecido)") — REVISADO 07-10
+- `scripts/revisar_grupos_planilla.js`. Todos los grupos existen (0 miembros: aún no se cargan).
+- OK: Multicloud (5 catálogos, Grupo tarea 1), Gestión Grupos AD, Excepción reemplazo, Excepción MFA SWIFT, Excepción Perfil Matriz Cargo Perfil, Servicios Cloud, Gestión BD, Gestión Exchange, Data deudores, RDP, UASC (Grupo tarea 3 de Permisos de Conexión RDP).
+- Pendiente:
+  - **Desvincular dispositivo de MFA - Banchile Inversiones** (`6c9e2bd7…`) tiene "MFA"; la planilla pide "Desenrolamiento MFA - Banchile" (`ec4c462c…`).
+  - **Data Safe**: el activo se llama "Copy of Data Safe" (`5d9891d2…`, con el grupo) y el "Data Safe" original (`5329d94d…`) está inactivo y sin grupo.
+  - **Equipo P&O**: el grupo existe como "Equipo P&0" (con cero), en Grupo tarea 3 de Grupo Renuncia (`b3cb2f60…`).
+  - " Excepción Perfil Matriz Cargo Perfil" (`719d11f8…`) tiene un espacio al inicio del nombre.
+- Los 12 catálogos de UASC ya tienen **XSOAR UASC** como Grupo de cumplimiento (cambiado por alguien después de 4.24). "Recursos Compartidos - Socofin" usa UASC - Socofin.
+
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
 - Script de verificación solo lectura para 4.1, 4.2 y 4.8 (client scripts activos, estado de `clase_cta_unix`, texto de opciones de Vigencia).
@@ -414,6 +424,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `renombrar_catalogos_vpn.js` | 4.13 | modifica (si no hay usos) | aplicado 07-10 (ambos renombrados) |
 | `aws_como_planilla.js` | 4.10 | modifica | pendiente dry run (como planilla Azure/OCI; confirmar con planilla AWS) |
 | `buscar_grupo_uasc.js` | 4.24 | solo lectura | corrido 07-10 |
+| `revisar_grupos_planilla.js` | 4.25 | solo lectura | corrido 07-10 |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
