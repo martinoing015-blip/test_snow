@@ -206,7 +206,11 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Planilla Remedy: Acción requerida (Otorgar / Modificar / Eliminar acceso), Nombre de usuario que requiere acceso (en AD Pre-productivo), Indique servidor(es) que requiere acceso (multilínea), "Ambiente / Hostname / Dirección IP" (etiqueta de texto enriquecido), Vigencia (Definida / Indefinida → Caducidad Vigencia, Fecha), Proyecto (Sí → nombre), Descripción detallada de la solicitud (multilínea). Grupo: Serv Windows Pre-Productivos.
 - Revisión pide 2 cosas: (1) en "Indique servidor(es) que requiere acceso" aparece el texto enriquecido como variable y al revés; (2) el adjunto "Informe Solicitud de Ambiente.docx" no está disponible en la descripción.
 - Plantilla Word recreada desde las capturas: `plantillas/Informe Solicitud de Ambiente.docx` (generador `plantillas/generar_informe_solicitud_ambiente.js`). El encabezado del banco va como franja de texto: si se tiene el original de Remedy, usar ese.
-- Pendiente: output de `scripts/diag_completo.js` (ahora también imprime la descripción, los adjuntos del ítem y el rich_text de las etiquetas) para armar el arreglo y el link del adjunto.
+- Diagnóstico 07-10: prefijo `u_gest_cta_srv_win_pprod_` (algunas con doble guion bajo: `__vigencia`, `__proyecto`…). Flujo B exclusivo; solo usa `peticion_para`. Petición para (31) autollena RUT / Nombres / Apellidos / Usuario de Dominio con `BCHDatosUsuarioAjax`.
+  - Causa (1): `amb_hostname_dir_ip` es Texto (6) obligatorio con ayuda "Indique servidor(es)…" y rich_text; debía ser etiqueta.
+  - (2): el ítem **ya tiene adjunto el original** "Informe Solicitud de Ambiente - Base.docx" (`21c193233ba783106977352eb3e45a3f`); la traducción es ya tiene el link, la descripción base no.
+- `scripts/win_pprod_hostname_y_adjunto.js` (**pendiente dry run**): inactiva `amb_hostname_dir_ip`, crea etiqueta `amb_hostname_dir_ip_texto` (32) en el mismo orden y pone el link (`/sys_attachment.do`) en base y es.
+- No pedido (Valores OK en la revisión): Acción se ve "Crear" / "Eliminar" y Vigencia "Temporal" / "Permanente" por traducciones globales (arreglo con `\u200B`); "Si" sin tilde; textos con espacio final; las 3 policies con orden 100.
 
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
@@ -287,6 +291,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `t1_ajustes_planilla.js` | 4.15 | modifica | aplicado (atributos ref_ac no sirven en el portal) |
 | `t1_usuario_dominio_texto.js` | 4.15 | modifica (crea Script Include) | aplicado (SI 9210e11d3b73cb106977352eb3e45a49) |
 | `t2_usuario_dominio_y_caducidad.js` | 4.16 | modifica | dry run OK, falta false |
+| `win_pprod_hostname_y_adjunto.js` | 4.17 | modifica | pendiente dry run |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
