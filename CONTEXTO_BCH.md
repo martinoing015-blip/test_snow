@@ -258,6 +258,23 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - `scripts/gcp_indique_t1_como_planilla.js` (**aplicado 07-10, falta probar**; texto planilla en `planilla/gcp.md`). Flow revisado: rama Otorgar o Modificar = Creación OR Modificación, no se toca
 - 07-10: el usuario pide Acción como la planilla (2 opciones) → `scripts/gcp_accion_como_planilla.js` (**pendiente dry run**): textos "Otorgar/Modificar Acceso" (value `otorgar_modificar_acceso`) y "Eliminar Acceso" (`eliminar_acceso`), `modificacion` inactiva. Values sin cambio → el Flow no se toca.: Indique cuenta T1 siempre visible y no obligatoria (la policy pasa a "Obligatorio - Indique cuenta T1 (Eliminación con T1)", solo obligatoria en Eliminación + interno + posee T1). Los onChange `GCP_LIMPIAR_ACCION` / `_COLAB` / `_POSEE` ya no la borran (POSEE se inactiva si queda vacío). Typo "Consola Admnistración" → "Consola de administración".
 
+### 4.21 Imperva DBF (`2514b86e1bdb72d0d4f1a756624bcb16`, prefijo `u_imp_dbf_`) — POR COMPARAR CON LA PLANILLA
+- Flow: **Flujo A - Sin Aprobación, compartido con 10 catálogos**. No usa variables → se pueden cambiar las variables, pero el Flow no se toca.
+- Variables:
+  - Tipo de Solicitud: requerimiento / incidente.
+  - Seleccione su requerimiento (7 opciones), Seleccione tipo de incidente (4 opciones).
+  - Servidor: solo para algunos requerimientos y para "Activación / Desactivación Agentes".
+  - Descripción detallada de la solicitud.
+- Observaciones:
+  - Values con tildes y espacio (`gestión_de_politicas`, `instalación_agente`, `activación _desactivación_agentes`…) → no cambiar, las policies los comparan.
+  - Las 3 variables condicionales son obligatorias en la variable.
+  - Sin borrar valor.
+  - Policies con orden 100 y nombres "Mostrar Requerimiento" y "Mostrar - Indicente " (typo, espacio).
+  - "Tipo de Solicitud " con espacio final.
+  - "Gestión de Politicas" sin tilde.
+  - Descripción con typos ("Generacion de politicas", "desintalación").
+- Falta: planilla (seguirla al pie de la letra).
+
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
 - Script de verificación solo lectura para 4.1, 4.2 y 4.8 (client scripts activos, estado de `clase_cta_unix`, texto de opciones de Vigencia).
