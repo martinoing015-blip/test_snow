@@ -273,6 +273,8 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - "Tipo de Solicitud " con espacio final.
   - "Gestión de Politicas" sin tilde.
   - Descripción con typos ("Generacion de politicas", "desintalación").
+- Revisión 07-10 (Reglas de visualización): al pasar de Requerimiento con servidor a Incidente, "Servidor" sigue visible. Causa: la policy de Servidor no exige Tipo = Requerimiento y el requerimiento oculto conserva su valor.
+- `scripts/imperva_servidor_fix.js` (**pendiente dry run**): condición de Servidor con Tipo = Requerimiento / Incidente, borrar valor en las 3 policies, nombres y orden corregidos.
 - Falta: planilla (seguirla al pie de la letra).
 
 ## 5. Pendientes generales
@@ -363,6 +365,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `gcp_accion_como_planilla.js` | 4.20 | modifica | pendiente dry run |
 | `gcp_como_planilla.js` | 4.20 | modifica | dry run OK, falta false (formulario exacto a la planilla) |
 | `verificar_gcp.js` | 4.20 | solo lectura | verificación (actualizar tras gcp_como_planilla) |
+| `imperva_servidor_fix.js` | 4.21 | modifica | pendiente dry run |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
