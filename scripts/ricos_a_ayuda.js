@@ -4,6 +4,7 @@
  *   - destino = la variable anterior (por orden) que no sea etiqueta; se puede cambiar con DESTINO.
  *   - el texto (sin HTML) va como help_text + show_help + show_help_on_load (+ traducción es),
  *     y la etiqueta se inactiva (no se borra).
+ * Además: toda variable del ítem que ya tenga texto de ayuda pero se despliegue con "?" queda siempre visible.
  * Variables de variable sets NO se tocan (se avisan).
  * Revisar en el dry run que cada etiqueta vaya a la variable correcta y las policies que la mostraban.
  * Cuenta: ADMIN | DRY_RUN=true solo lectura | DRY_RUN=false MODIFICA DATOS
@@ -84,4 +85,19 @@ lista.forEach(function (lab, i) {
     r.setValue('active', false); r.update();
 });
 if (!n) gs.print('\n(no hay etiquetas de texto enriquecido activas en el ítem)');
+
+// Ayudas que hoy se despliegan con "?" → siempre visibles
+gs.print('\n--- Ayudas existentes que no se ven al cargar');
+var h = new GlideRecord('item_option_new'); h.addQuery('cat_item', ITEM_ID); h.addActiveQuery(); h.addNotNullQuery('help_text'); h.orderBy('order'); h.query();
+var hn = 0;
+while (h.next()) {
+    if (h.getValue('type') == '32') continue;
+    var visible = h.getValue('show_help') == '1' && (!h.isValidField('show_help_on_load') || h.getValue('show_help_on_load') == '1');
+    if (visible) continue;
+    hn++;
+    gs.print('   • [' + h.getValue('order') + '] ' + h.getValue('name') + ' | show_help=' + h.getValue('show_help') +
+        (h.isValidField('show_help_on_load') ? ' show_help_on_load=' + h.getValue('show_help_on_load') : '') + ' → visible | "' + h.getValue('help_text').replace(/\n/g, ' / ') + '"');
+    if (!DRY_RUN) { h.setValue('show_help', true); if (h.isValidField('show_help_on_load')) h.setValue('show_help_on_load', true); h.update(); }
+}
+if (!hn) gs.print('   (ninguna)');
 gs.print('\nFIN' + (DRY_RUN ? ' (DRY RUN, nada modificado)' : ' (cambios aplicados)'));
