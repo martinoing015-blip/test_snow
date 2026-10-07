@@ -236,7 +236,8 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - Otros controles: **no tiene campo extra** (el nuestro pide "Indicar control…", confirmar si se deja).
   - "Indique usuarios" (Control de vigencia) es una línea en la planilla (el nuestro es multilínea).
   - "Detalles del requerimiento" figura como Selección múltiple (error de la planilla, se deja multilínea).
-- `scripts/cump_int_ajustes_planilla.js` (**pendiente dry run**): etiqueta de Revocar sin ayuda, borrar valor y nombres / orden de las policies, orden de 100 en 100.
+- Decisión 07-10: "Indicar Usuarios" de Revocar se deja como está (con ayuda); Otros controles e Indique usuarios sin cambio por ahora.
+- `scripts/cump_int_ajustes_planilla.js` (**pendiente dry run**): borrar valor y nombres / orden de las policies, orden de 100 en 100.
 
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
