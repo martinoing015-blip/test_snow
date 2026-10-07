@@ -244,14 +244,17 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - `scripts/ricos_a_ayuda.js` (genérico, **dry run OK 07-10: 3 etiquetas → seleccionar_categoria, nombre_proyecto, nombre_grupo_crear; falta false**). Prefijo `u_gest_grp_ad_apli_`, 2 variable sets: cada etiqueta 32 activa pasa a la ayuda visible de la variable anterior (o la de `DESTINO`) con traducción es, y la etiqueta se inactiva. El dry run muestra la anterior / siguiente y las policies de cada una.
 - Las ayudas que hoy se despliegan con "?" (show_help sin show_help_on_load) también hay que dejarlas visibles: revisar con el diagnóstico.
 
-### 4.20 Google Cloud Platform (`0cd9733b1bfb3a5058f65425604bcb61`, Ciberseguridad > Entorno Cloud) — POR ANALIZAR
+### 4.20 Google Cloud Platform (`0cd9733b1bfb3a5058f65425604bcb61`, Ciberseguridad > Entorno Cloud) — EN REVISIÓN
 - Planilla Remedy 07-10 (grupo Multicloud; célula → Equipo Operaciones Cloud CS):
   - Acción Requerida: Otorgar/Modificar Acceso → Vigencia (Definida → Caducidad vigencia, Fecha; Indefinida) + "Seleccione tipo de rol" (**casillas**: Consola de administración / Dominio de datos → "Indique nombre de matriz GCP", texto). Eliminar Acceso: sin campos extra.
   - Siempre: Indique cuenta T1 (texto, **no** obligatorio), Descripción de la solicitud (multilínea), ¿Esta solicitud está asociada a una célula? (Sí → Seleccione Célula).
   - Meta tag: GCP.
   - Descripción: "Esta solicitud tiene un acuerdo de atención con un plazo de hasta 5 días en horario de hábil. / Todo colaborador deberá contar con su cuenta T1 para acceder a los recursos de administración en GCP. Esta puede ser solicitada por la categoría "Gestión de Cuenta con Alto Privilegio T1" (en rojo), la asignación de estos accesos serán validados en la matriz de roles y privilegios vigente."
-- ⚠️ Probablemente usa el Flujo I compartido con Multicloud (4.9): no cambiar values de Acción sin revisar el Flow.
-- Falta el output de `scripts/diag_completo.js` (el usuario pegó el script en vez del output).
+- Diagnóstico 07-10: prefijo `u_gcp_`, **Flujo I - Google_Cloud_Platform exclusivo** (no es el de Multicloud), compara `accion_requerida` en 2 ramas y usa la célula. Ya estaba homologado con Remedy: client scripts `GCP_LIMPIAR_*` y `GCP_VALIDAR_ROL`.
+  - Hoy: Acción Creación (`otorgar_modificar_acceso`) / Modificación / Eliminación. ¿Colaborador interno o proveedor? Eliminar + interno → ¿Posee T1? → Indique cuenta T1; Eliminar → Indique rol a eliminar. Creación / Modificación → etiqueta "¿Requiere rol administrativo?" + casillas Consola / Dominio de datos (→ matriz GCP) + Vigencia → Caducidad. Siempre: Proyecto, Descripción detallada, ¿RBAC? y célula (set "Conjunto de celulas 2").
+  - Diferencias con la planilla: 3 acciones (planilla 2), agrega colaborador/proveedor, Posee T1, rol a eliminar, Proyecto y RBAC; Indique cuenta T1 en la planilla va siempre y no es obligatoria; casilla "Consola **Admnistración**" (typo; planilla "Consola de administración").
+  - Descripción: la base es igual a la planilla (sin link). La traducción es (la que ve el portal) tiene un link al catálogo T1 (`4adb8181…`), sin el rojo de la planilla.
+- Pendiente: que el usuario decida si se sigue la planilla o Remedy (lo actual).
 
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
