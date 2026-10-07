@@ -373,7 +373,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 ## 8. Índice de scripts (`scripts/`)
 | Script | Catálogo | Tipo | Estado |
 |---|---|---|---|
-| `diag_completo.js` | genérico (hoy aa0fe7a6…) | solo lectura | diag_catalogo + diag_flow en uno: usar en cada catálogo nuevo |
+| `diag_completo.js` | genérico (hoy 6533bf81…) | solo lectura | diag_catalogo + diag_flow en uno: usar en cada catálogo nuevo |
 | `diag_catalogo.js` | genérico (cambiar ITEM_ID) | solo lectura | usar en cada catálogo nuevo |
 | `buscar_uso_nombre_catalogo.js` | genérico (hoy VPN 4.13) | solo lectura | volver a correr |
 | `quitar_ninguno_variable.js` | genérico (hoy Renombrar Usuario) | modifica | en 4.12 no hizo falta (`include_none` ya en 0) |
