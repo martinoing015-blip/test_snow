@@ -188,7 +188,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - Usuario Dominio: que en el input quede el username, no el nombre completo. Se hace con atributos `ref_auto_completer=AJAXTableCompleter,ref_ac_columns=user_name;name,ref_ac_columns_search=true,ref_ac_display_value=false`. Probar en el portal; si igual muestra el nombre, plan B: variable aparte o cambio de display.
   - Caducidad vigencia: Texto → Fecha (9).
 - Planilla Remedy recibida 07-10. Orden: Usuario Dominio, RUT, Nombre completo (solo lectura), Acción. Crear y Modificar: (Modificar: Indique usuario) Requiere acceso a servidores (Sí → Servidor(es)), ¿Requerirá acceso a nubes? (Sí/No, sin hijo), "(Solo para registro interno)", Periodo de vigencia (Definido → Caducidad, Fecha). Habilitar y Desvincular MFA: Indique usuario + NOTA. Eliminar: Indique usuario. Justificación, Proyecto (Sí → nombre), Adjuntar archivo (no obligatorio).
-- `scripts/t1_ajustes_planilla.js` (**pendiente dry run**; incluye el script anterior):
+- `scripts/t1_ajustes_planilla.js` (**dry run OK 07-10, falta false y probar**; el anterior ya se aplicó):
   - Usuario Dominio solo con username en la lista (`ref_ac_columns=user_name`) y sin espacio inicial. **Si el campo sigue mostrando el nombre al elegir, plan B: variable de texto + GlideAjax (la planilla dice texto de una línea).**
   - "Rut" → "RUT". Caducidad → Fecha. Borrar valor en las policies "Mostrar". "Mostrar - Crear o Modificar cuenta". Orden de 100 en 100.
 - No se toca: Proyecto es Sí/no (tipo 1; la planilla dice cuadro de selección, funciona igual). "Sí" se ve "Si" por la traducción global. RUT y Nombre no son obligatorios (la planilla dice Sí, pero son de solo lectura y autollenados).
@@ -268,8 +268,8 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `diag_flow_catalogo.js` | genérico (hoy T0 4.14) | solo lectura | correr para T0 |
 | `t0_vigencia_solo_crear.js` | 4.14 | modifica | aplicado |
 | `t0_orden_variables.js` | 4.14 | modifica | pendiente |
-| `t1_usuario_dominio_y_caducidad.js` | 4.15 | modifica | reemplazado por t1_ajustes_planilla.js |
-| `t1_ajustes_planilla.js` | 4.15 | modifica | pendiente dry run |
+| `t1_usuario_dominio_y_caducidad.js` | 4.15 | modifica | aplicado (caducidad ya es Fecha) |
+| `t1_ajustes_planilla.js` | 4.15 | modifica | dry run OK, falta false |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
