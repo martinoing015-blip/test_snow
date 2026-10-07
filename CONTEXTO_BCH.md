@@ -454,3 +454,4 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 - Nuevo: `scripts/cierre_auto_ritm_habiles.js` (lun-vie menos Feriados CHILE; propiedad opcional `bch.ciber.ritm.cierre.auto.feriados`; fecha de término = auditoría del cambio a state 3 → closed_at → sys_updated_on). Simulación: 19 de 40 se cerrarían al activarlo.
 - Diagnóstico solo lectura: `scripts/diag_cierre_auto_ritm.js` (dónde está el job, estados, calendarios/feriados, simulación continuo vs hábil).
 - Aplicar al job (queda INACTIVO): `scripts/actualizar_job_cierre_auto_ritm.js` (imprime respaldo del script anterior). **APLICADO** (job con script días hábiles, activo=0; falta probar con DRY_RUN=true y activar cuando lo aprueben).
+- Prueba por RITM: `scripts/probar_cierre_auto_ritm.js` (lista RITMS, detalle día a día, DRY_RUN=false cierra solo los que cumplen).
