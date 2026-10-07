@@ -168,6 +168,24 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Orden como Remedy: Acción → Vigencia → Caducidad → Nombre → Justificación: `scripts/t0_orden_variables.js` (**pendiente correr**).
 - Pendiente: correr `scripts/diag_flow_catalogo.js` (¿el Flow usa la Vigencia? ¿lo comparten T1/T2?) y arreglar el formato de fecha del script de 90 días.
 
+### 4.15 Gestión de Cuenta con Alto Privilegio T1 (`4adb81813bddc7902815757e53e45a22`, prefijo `u_gest_cta_altpriv_t1_`, Flujo C - Gestion_Cuenta_Alto_Privilegio_T1, exclusivo) — POR COMPARAR CON REMEDY
+- Diagnóstico 07-10 (`scripts/diag_completo.js`):
+  - Usuario Dominio (referencia sys_user, orden 70, texto con espacio al inicio) autollena Rut y Nombre completo (solo lectura).
+  - Acción: crear_cuenta / habilitar_cuenta / modificar_cuenta / desvincular_dispositivo_mfa / eliminar_cuenta.
+  - Crear y Modificar: acceso a servidores (Sí → Servidor(es)), ¿acceso a nubes?, texto enriquecido, Periodo de vigencia (`definido` / `indefinido`, en masculino, sin el problema Temporal) → Caducidad.
+  - Habilitar, Modificar, Desvincular MFA y Eliminar tienen cada uno su "Indique usuario…".
+  - Al final: Justificación, Proyecto (Sí/no, tipo 1) → nombre del proyecto.
+- Flow: no usa variables del catálogo (sus "Si" son de aprobación). Llenar Wo Types en el MAP: solo `requested_for.*` → se pueden cambiar variables sin romperlo.
+- Observaciones:
+  - **Caducidad vigencia es Texto (6)**, debería ser Fecha o Fecha/hora (confirmar con Remedy).
+  - Ninguna policy borra valor.
+  - "Mostrar - Crear cuenta" aplica también a Modificar.
+  - ¿Acceso a nubes? no despliega nada al elegir Sí.
+  - Sí → "Si" por la traducción global.
+  - El onChange de Rut usa GlideRecord en el cliente: puede fallar en el portal o por ACL con usuarios no admin. Mejor `BCHDatosUsuarioAjax` (no trae nombre completo: habría que agregarlo).
+  - Orden 70/80/90/150/450 fuera de convención.
+- Falta: capturas de Remedy de las 5 acciones.
+
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
 - Script de verificación solo lectura para 4.1, 4.2 y 4.8 (client scripts activos, estado de `clase_cta_unix`, texto de opciones de Vigencia).
