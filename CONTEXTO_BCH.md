@@ -184,7 +184,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - Sí → "Si" por la traducción global.
   - El onChange de Rut usa GlideRecord en el cliente: puede fallar en el portal o por ACL con usuarios no admin. Mejor `BCHDatosUsuarioAjax` (no trae nombre completo: habría que agregarlo).
   - Orden 70/80/90/150/450 fuera de convención.
-- Revisión (planilla de pruebas), 2 correcciones pedidas → `scripts/t1_usuario_dominio_y_caducidad.js` (**pendiente dry run**):
+- Revisión (planilla de pruebas), 2 correcciones pedidas → `scripts/t1_usuario_dominio_y_caducidad.js` (**dry run OK 07-10, 0 RITM con valor; falta false y probar**):
   - Usuario Dominio: que en el input quede el username, no el nombre completo. Se hace con atributos `ref_auto_completer=AJAXTableCompleter,ref_ac_columns=user_name;name,ref_ac_columns_search=true,ref_ac_display_value=false`. Probar en el portal; si igual muestra el nombre, plan B: variable aparte o cambio de display.
   - Caducidad vigencia: Texto → Fecha (9).
 - Falta: capturas de Remedy de las 5 acciones.
@@ -264,7 +264,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `diag_flow_catalogo.js` | genérico (hoy T0 4.14) | solo lectura | correr para T0 |
 | `t0_vigencia_solo_crear.js` | 4.14 | modifica | aplicado |
 | `t0_orden_variables.js` | 4.14 | modifica | pendiente |
-| `t1_usuario_dominio_y_caducidad.js` | 4.15 | modifica | pendiente dry run |
+| `t1_usuario_dominio_y_caducidad.js` | 4.15 | modifica | dry run OK, falta false |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
