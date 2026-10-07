@@ -10,7 +10,7 @@
 var DRY_RUN = true;
 var ITEM_ID = 'a6837d761b5736d0d4f1a756624bcb09';
 var TEXTOS = {
-    u_prac_usuario_dominio_solicitante: 'Usuario Dominio Solicitante',   // cambiar aquí si piden otra etiqueta (ej. 'Nombre completo del Solicitante')
+    u_prac_usuario_dominio_solicitante: 'Petición para',
     u_prac_rut_solicitante: 'Rut del Solicitante',
     u_prac_nombres_solicitante: 'Nombres del Solicitante',
     u_prac_apellidos_solicitante: 'Apellidos del Solicitante',
