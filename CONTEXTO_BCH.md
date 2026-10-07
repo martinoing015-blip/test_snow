@@ -418,6 +418,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `win_pprod_hostname_y_adjunto.js` | 4.17 | modifica | aplicado (etiqueta luego reemplazada por ayuda) |
 | `win_pprod_hostname_como_ayuda.js` | 4.17 | modifica | pendiente dry run |
 | `cump_int_ajustes_planilla.js` | 4.18 | modifica | pendiente dry run |
+| `diag_branding_notificaciones.js` | genérico (notificaciones, opcional SOLO_TABLA) | solo lectura | para reunión "Problemas: Branding Notificaciones" |
 | `ricos_a_ayuda.js` | genérico (hoy 4c1c1c44…) | modifica | dry run OK en 4c1c1c44 (3 etiquetas), falta false |
 | `gcp_indique_t1_como_planilla.js` | 4.20 | modifica | aplicado 07-10 |
 | `gcp_accion_como_planilla.js` | 4.20 | modifica | pendiente dry run |
