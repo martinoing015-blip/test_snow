@@ -98,6 +98,7 @@ while (p.next()) {
     var a = new GlideRecord('catalog_ui_policy_action'); a.addQuery('ui_policy', p.getUniqueValue()); a.query();
     while (a.next()) {
         if (a.getValue('visible') != 'true' || a.getValue('value_action') == 'clearValue') continue;
+        if (NOMBRE[a.getValue('catalog_variable')] == 'texto_enriquecido') continue;   // etiqueta: no tiene valor
         gs.print('   • ' + nom + ' → ' + (NOMBRE[a.getValue('catalog_variable')] || a.getValue('catalog_variable')) + ' | BORRAR VALOR');
         if (!DRY_RUN) { a.setValue('value_action', 'clearValue'); a.update(); }
     }
