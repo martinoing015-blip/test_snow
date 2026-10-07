@@ -445,3 +445,8 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `multicloud_eliminacion.js` | 4.9 | modifica | dry run OK, confirmar false |
 | `prueba_multicloud_crear_tickets.js` | 4.9 | crea RITM | corrido (RITM0011087–0011092) |
 | `prueba_multicloud_revisar_tickets.js`, `prueba_multicloud_buscar_wo.js` | 4.9 | lectura (`APROBAR=true` aprueba) | revisar resultados |
+
+### 4.27 Cierre automático RITM (Terminado 3 → Cerrado 4) en días hábiles
+- Script original: 24x7 (38fa64edc0a8016400f4a5724b0434b8) + sys_updated_on → días continuos y se reinicia con cualquier actualización.
+- Nuevo: `scripts/cierre_auto_ritm_habiles.js` (cuenta días hábiles lun-vie excluyendo feriados del calendario de la propiedad `bch.ciber.ritm.cierre.auto.calendario`; fecha de término = auditoría del cambio a state 3 → closed_at → sys_updated_on).
+- Diagnóstico solo lectura: `scripts/diag_cierre_auto_ritm.js` (dónde está el job, estados, calendarios/feriados, simulación continuo vs hábil).
