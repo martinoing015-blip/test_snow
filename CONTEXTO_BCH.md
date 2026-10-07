@@ -291,7 +291,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - "Mostrar -  Obligatoriedad ¿…célula?" (doble espacio, debería ser "Obligatorio - …").
   - Caducidad obligatoria en la variable.
 - Planilla 07-10: Acción (Otorgar/Modificar → Vigencia → Caducidad; Eliminar), **Indique cuenta T1 (texto, obligatoria)**, Descripción de la solicitud, célula. Vigencia sin "obligatorio" marcado en la planilla (se deja obligatoria, flag `VIGENCIA_OBLIGATORIA`). Revisión: falta Indique T1 y sobran campos (Proyecto…).
-- `scripts/az_como_planilla.js` (**pendiente dry run**): inactiva colaborador, rol administrativo y Proyecto (+ su policy); activa cuenta T1 obligatoria; policies con borrar valor y nombres; onChange de Acción reescrito (`AZ_LIMPIAR_ACCION`, ya no borra Descripción); `\u200B` en Eliminar Acceso / Definida / Indefinida; orden de la planilla.
+- `scripts/az_como_planilla.js` (**dry run OK 07-10, falta false y probar**; planilla V2 igual): inactiva colaborador, rol administrativo y Proyecto (+ su policy); activa cuenta T1 obligatoria; policies con borrar valor y nombres; onChange de Acción reescrito (`AZ_LIMPIAR_ACCION`, ya no borra Descripción); `\u200B` en Eliminar Acceso / Definida / Indefinida; orden de la planilla.
 
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
@@ -382,7 +382,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `gcp_como_planilla.js` | 4.20 | modifica | dry run OK, falta false (formulario exacto a la planilla) |
 | `verificar_gcp.js` | 4.20 | solo lectura | verificación (actualizar tras gcp_como_planilla) |
 | `imperva_servidor_fix.js` | 4.21 | modifica | aplicado 07-10 |
-| `az_como_planilla.js` | 4.22 | modifica | pendiente dry run (formulario exacto a la planilla) |
+| `az_como_planilla.js` | 4.22 | modifica | dry run OK, falta false (formulario exacto a la planilla) |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
