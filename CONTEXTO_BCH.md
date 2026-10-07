@@ -277,6 +277,21 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - `scripts/imperva_servidor_fix.js` (**aplicado 07-10, falta probar**; texto planilla en `planilla/imperva_dbf.md`): condición de Servidor con Tipo = Requerimiento / Incidente, borrar valor en las 3 policies, nombres y orden corregidos.
 - Falta: planilla (seguirla al pie de la letra).
 
+### 4.22 Microsoft Azure (`3f8130f82b99c7d0d8e0fc3c3291bf52`, prefijo `u_ms_az_`, Flujo I - Microsoft_Azure exclusivo) — POR COMPARAR CON LA PLANILLA
+- Flow: usa `accion_requerida` (2 ramas) y la célula; values `otorgar_modificar_acceso` / `eliminar_acceso` → no cambiar.
+- Hoy:
+  - Acción: Otorgar/Modificar Acceso / Eliminar Acceso.
+  - Otorgar/Modificar: ¿Colaborador interno o proveedor? → ¿Requiere rol administrativo? (Sí/no), Vigencia → Caducidad (Fecha).
+  - Siempre: Proyecto (Sí/no, obligatorio), Descripción de la solicitud, célula (set, orden 600 = mismo que descripción).
+  - **Indique cuenta T1 inactiva.**
+- Observaciones:
+  - "Eliminar Acceso" se ve "Eliminar" y Vigencia "Temporal / Permanente" por traducción global (arreglo `\u200B`).
+  - El onChange de Acción (sin marcador, con `const` y flechas) borra también Descripción y Proyecto al cambiar la acción.
+  - Policies sin borrar valor.
+  - "Mostrar -  Obligatoriedad ¿…célula?" (doble espacio, debería ser "Obligatorio - …").
+  - Caducidad obligatoria en la variable.
+- Falta: planilla (seguirla al pie de la letra; probablemente igual a GCP: Indique cuenta T1 siempre visible y no obligatoria).
+
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
 - Script de verificación solo lectura para 4.1, 4.2 y 4.8 (client scripts activos, estado de `clase_cta_unix`, texto de opciones de Vigencia).
