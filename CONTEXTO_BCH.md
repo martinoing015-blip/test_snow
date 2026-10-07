@@ -266,6 +266,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Documento de dudas BCH: aplicativos/plataformas sin equivalente, célula vs proyecto ágil, "Seleccione recurso nube" API vs AWS, ayuda de `nombre_cuenta`.
 - Planilla: Revisión/Deshabilitación de Agentes sin estado; Filtro en Firewall marcar como trabajado.
 
+- 07-10: **el usuario exige el formulario EXACTO a la planilla** (en el portal las casillas de rol no salían con Otorgar/Modificar porque dependían de Colaborador). `scripts/gcp_como_planilla.js` (**pendiente dry run**): inactiva colaborador_proveedor, posee_cuenta_t1, indique_rol_eliminar, es_proyecto, requiere_rbac y sus policies + onChange COLAB; policies solo con Acción = Otorgar/Modificar; onSubmit GCP_VALIDAR_ROL sin colaborador; textos "Seleccione tipo de rol" / "Descripción de la solicitud"; orden de la planilla. **Regla: cuando hay planilla, seguir la planilla al pie de la letra.**
 ### Orden sugerido
 1. Aclarar Go Live / update sets.
 2. Script de verificación (4.1, 4.2, 4.8).
@@ -343,7 +344,8 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `ricos_a_ayuda.js` | genérico (hoy 4c1c1c44…) | modifica | dry run OK en 4c1c1c44 (3 etiquetas), falta false |
 | `gcp_indique_t1_como_planilla.js` | 4.20 | modifica | aplicado 07-10 |
 | `gcp_accion_como_planilla.js` | 4.20 | modifica | pendiente dry run |
-| `verificar_gcp.js` | 4.20 | solo lectura | verificación final de GCP |
+| `gcp_como_planilla.js` | 4.20 | modifica | pendiente dry run (formulario exacto a la planilla) |
+| `verificar_gcp.js` | 4.20 | solo lectura | verificación (actualizar tras gcp_como_planilla) |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
