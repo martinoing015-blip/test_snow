@@ -343,6 +343,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `ricos_a_ayuda.js` | genérico (hoy 4c1c1c44…) | modifica | dry run OK en 4c1c1c44 (3 etiquetas), falta false |
 | `gcp_indique_t1_como_planilla.js` | 4.20 | modifica | aplicado 07-10 |
 | `gcp_accion_como_planilla.js` | 4.20 | modifica | pendiente dry run |
+| `verificar_gcp.js` | 4.20 | solo lectura | verificación final de GCP |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
