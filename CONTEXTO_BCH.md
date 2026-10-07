@@ -239,6 +239,11 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Decisión 07-10: "Indicar Usuarios" de Revocar se deja como está (con ayuda); Otros controles e Indique usuarios sin cambio por ahora.
 - `scripts/cump_int_ajustes_planilla.js` (**pendiente dry run**): borrar valor y nombres / orden de las policies, orden de 100 en 100.
 
+### 4.19 Catálogo `4c1c1c441b004b5058f65425604bcb55` (grupos de AD: "Selecciona Empresa", "Seleccionar acción a ejecutar", "Crear grupo de AD") — EN CURSO
+- Revisión (Orden de variables): los textos enriquecidos se ven distintos (unos desplegables desde "?", otros debajo del input) y la instrucción se lee después de escribir. Hay que pasarlos a ayuda visible de su variable (ej.: "Debe seleccionar la categoría más relevante para este grupo AD." → ayuda de "Seleccionar categoría").
+- `scripts/ricos_a_ayuda.js` (genérico, **pendiente dry run**): cada etiqueta 32 activa pasa a la ayuda visible de la variable anterior (o la de `DESTINO`) con traducción es, y la etiqueta se inactiva. El dry run muestra la anterior / siguiente y las policies de cada una.
+- Las ayudas que hoy se despliegan con "?" (show_help sin show_help_on_load) también hay que dejarlas visibles: revisar con el diagnóstico.
+
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
 - Script de verificación solo lectura para 4.1, 4.2 y 4.8 (client scripts activos, estado de `clase_cta_unix`, texto de opciones de Vigencia).
@@ -321,6 +326,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `win_pprod_hostname_y_adjunto.js` | 4.17 | modifica | aplicado (etiqueta luego reemplazada por ayuda) |
 | `win_pprod_hostname_como_ayuda.js` | 4.17 | modifica | pendiente dry run |
 | `cump_int_ajustes_planilla.js` | 4.18 | modifica | pendiente dry run |
+| `ricos_a_ayuda.js` | genérico (hoy 4c1c1c44…) | modifica | pendiente dry run |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
