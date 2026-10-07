@@ -138,8 +138,13 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Remedy, Eliminación: Ambiente → (Azure/AWS/OCI) ¿Posee cuenta T1? (Si → Indique cuenta T1) + "Indique rol a eliminar"; (GCP) solo "Indique rol a eliminar". Sin rol administrativo ni Vigencia. AWS asumido igual que Azure/OCI (sin captura).
 - Script `scripts/multicloud_eliminacion.js`: nueva `rol_eliminar`, policy "Mostrar - Indique rol a eliminar", Posee/Cuenta T1 con condición agrupada (rol=si OR rol_gcp=consola OR Eliminación) ^ (Azure/AWS/OCI OR rol_gcp=consola). Dry run OK; **confirmar corrida en false y pruebas**.
 
-### 4.10 Catálogo `6533bf811b140750d4f1a756624bcb94` — POR ANALIZAR
-- Se entregó el script de diagnóstico con este ITEM_ID. **Falta el output** y confirmar qué catálogo es.
+### 4.10 Amazon Web Services (`6533bf811b140750d4f1a756624bcb94`, prefijo `u_aws_`, Flujo I - Amazon_Web_Services exclusivo, **en Borrador**) — EN CURSO
+- Diagnóstico 07-10:
+  - Está como GCP antes de la planilla: Acción Creación / Modificación / Eliminación (values `otorgar_modificar_acceso` / `modificacion` / `eliminar_acceso`), Colaborador/Proveedor, Rol admin, Posee T1, Indique cuenta T1, Rol a eliminar, Vigencia / Caducidad, Proyecto, Descripción detallada, célula.
+  - Ya tiene `\u200B` en Sí y Vigencia; marcadores `AWS_LIMPIAR_*`.
+  - Flow: acción (2 ramas) + célula.
+  - La descripción dice "T1, T2".
+- `scripts/aws_como_planilla.js` (**pendiente dry run; confirmar con la planilla de AWS**): igual que Azure/OCI. Acción en 2 opciones (modificacion inactiva), inactiva los campos que sobran y sus policies y onChange, cuenta T1 obligatoria, textos y orden.
 
 ### 4.11 Action "Llenar Wo Types" (genérica, 75 catálogos)
 - Llena campos `u_wo_type_*` del RITM según un MAP por catálogo (no crea registro aparte).
@@ -398,6 +403,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `oci_como_planilla.js` | 4.23 | modifica | dry run OK, falta false (formulario exacto a la planilla V2) |
 | `verificar_usuario_dominio_flow.js` | 4.15 / 4.16 | solo lectura | ¿el Flow o algo usa usuario_dominio como referencia? |
 | `renombrar_catalogos_vpn.js` | 4.13 | modifica (si no hay usos) | aplicado 07-10 (ambos renombrados) |
+| `aws_como_planilla.js` | 4.10 | modifica | pendiente dry run (como planilla Azure/OCI; confirmar con planilla AWS) |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
