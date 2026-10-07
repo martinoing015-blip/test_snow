@@ -459,6 +459,6 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 
 ### 4.28 Practicantes (a6837d761b5736d0d4f1a756624bcb09) — Flujo B - Practicantes
 - Planilla "Manejo de RUT": elegir Nombre completo (lista), mapear RUT, nombre, apellidos y username; RUT NO visible para el solicitante (guardado por detrás).
-- Antes: Rut/Nombres/Apellidos solo lectura y NADIE los llenaba (vacíos). No había variable username.
-- Script `scripts/prac_rut_autocompletar.js`: SI nuevo `BCHDatosUsuarioAjax.getDatos(sysparm_user_id)` (rut=employee_number, first_name, last_name, user_name), variable nueva `u_prac_username_solicitante`, client script onChange "Practicantes - Autocompletar datos solicitante" (solo portal), UI policy "Ocultar RUT en portal" (solo catálogo), etiqueta usuario → "Nombre completo del Solicitante", typos.
+- Rut/Nombres/Apellidos YA se autollenan con Auto-populate de la variable (el diag no lo mostraba). Faltaba: ocultar RUT al solicitante y agregar username.
+- Script `scripts/prac_rut_autocompletar.js`: variable nueva `u_prac_username_solicitante` ("Usuario de Dominio del Solicitante", Auto-populate copiado de Nombres con ruta user_name), UI policy "Ocultar RUT en portal" (solo catálogo), textos "del"; etiqueta usuario opcional. Sin SI ni client script.
 - Pendiente: descripción base sin link (solo es lo tiene), "aqui"→"aquí"; adjunto "Servicio - Practicantes.xlsx" sin uso; cantidad usuarios siempre visible; opciones "Dominio"/"Excepción"; Flow no usa tipo/aplicativo (grupos "según corresponda", jefatura nivel 1 por definir).
