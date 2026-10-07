@@ -310,6 +310,15 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - onChange `OCI_LIMPIAR_ACCION`.
   - `\u200B` en Eliminar Acceso / Definida / Indefinida; orden.
 
+### 4.24 Grupo "Automatizaciones UASC" (`22b89e393be94f502815757e53e45ac5`) — EN REVISIÓN
+- Planilla: fila "Automatizaciones UASC", estado "Falta", 9 servicios, última columna "XSOAR UASC" (grupo `114c862c2b9587d0d8e0fc3c3291bf96`).
+- `scripts/buscar_grupo_uasc.js` 07-10:
+  - 13 ítems con Automatizaciones UASC, todos en Grupo de cumplimiento (`group`). Ningún Flow asigna el grupo por sys_id, y nadie usa XSOAR UASC.
+  - En la planilla y con el grupo: VDI 2.0, GCP externos (5b8b015e), Extensión de Vigencia, Gestión VPN Colaborador Interno, Protocolo Extranjero, Activar Cuentas Temporales, Reset de Contraseña - Cuentas de Dominio (f64c0a12 activo; 86058830 inactivo).
+  - En la planilla **sin** el grupo: Desvincular dispositivo de MFA (Robo, Hurto o Pérdida) (0a05b140, grupo MFA).
+  - Con el grupo pero tachados o fuera de la planilla: Cambio/Restablecimiento de contraseña (a8b17932), Cambio/Restablecimiento T1, T2 y Casillas (b79cc583), Acceso Citrix VDI Remoto (inactivo), "Habilitación de VPN para Colaborador Interno" d0bdf1ef (= Navegación Privilegiada, nombre base mal copiado), Solicitud Certificadores QA (823e4132).
+- Pendiente: que el usuario confirme qué pide la planilla (¿cambiar a XSOAR UASC? ¿sacar el grupo de los tachados? ¿agregar MFA?).
+
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
 - Script de verificación solo lectura para 4.1, 4.2 y 4.8 (client scripts activos, estado de `clase_cta_unix`, texto de opciones de Vigencia).
@@ -404,6 +413,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `verificar_usuario_dominio_flow.js` | 4.15 / 4.16 | solo lectura | ¿el Flow o algo usa usuario_dominio como referencia? |
 | `renombrar_catalogos_vpn.js` | 4.13 | modifica (si no hay usos) | aplicado 07-10 (ambos renombrados) |
 | `aws_como_planilla.js` | 4.10 | modifica | pendiente dry run (como planilla Azure/OCI; confirmar con planilla AWS) |
+| `buscar_grupo_uasc.js` | 4.24 | solo lectura | corrido 07-10 |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
