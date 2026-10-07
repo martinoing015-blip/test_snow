@@ -7,7 +7,7 @@
  * (pasos, variables que usa, variables que no usa y otros catálogos con el mismo Flow).
  * También: descripción del ítem (base y es), adjuntos del ítem y contenido de las etiquetas de texto enriquecido.
  */
-var ITEM_ID = '0cd9733b1bfb3a5058f65425604bcb61';
+var ITEM_ID = '2514b86e1bdb72d0d4f1a756624bcb16';
 var PRINT_CODE = true;
 
 var MAP = {};   // sys_id variable -> name
