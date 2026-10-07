@@ -14,6 +14,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Cada script trae `DRY_RUN = true` primero (solo lectura) y después `false`.
 - En cada script o paso indicar **con qué cuenta** se ejecuta (sesión admin o usuario suplantado) y **si es solo lectura o modifica datos**.
 - **NUNCA modificar los conjuntos de variables (variable sets)**: afectan a todos los catálogos que los usan. Los cambios se hacen a nivel del ítem (policies del ítem, client scripts del ítem, orden del vínculo `io_set_item` del ítem).
+- **Texto enriquecido de Remedy → texto de ayuda siempre visible en la variable que corresponde** (help_text + show_help + show_help_on_load + traducción es), nunca como etiqueta (decisión del usuario 07-10).
 - No cambiar **values** de opciones existentes (los leen Flows y policies); solo el texto.
 - Variables nuevas con el **prefijo del catálogo**.
 - Al terminar cada catálogo, entregar texto para la planilla: **Modificación** (corta) y **Detalle**.
@@ -210,6 +211,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - Causa (1): `amb_hostname_dir_ip` es Texto (6) obligatorio con ayuda "Indique servidor(es)…" y rich_text; debía ser etiqueta.
   - (2) 07-10: el original adjunto **no se puede descargar** → se usa el Word recreado `plantillas/Informe Solicitud de Ambiente.docx` (adjuntarlo al ítem y el script cambia el link). Antes: "Informe Solicitud de Ambiente - Base.docx" (`21c193233ba783106977352eb3e45a3f`); la traducción es ya tiene el link, la descripción base no.
 - `scripts/win_pprod_hostname_y_adjunto.js` (**pendiente dry run**): inactiva `amb_hostname_dir_ip`, crea etiqueta `amb_hostname_dir_ip_texto` (32) en el mismo orden y pone el link al Word nuevo (`/sys_attachment.do`) en base y es.
+- 07-10: el usuario pide la ayuda en vez de etiqueta → `scripts/win_pprod_hostname_como_ayuda.js` (**pendiente dry run**): ayuda visible "Ambiente / Hostname / Dirección IP" en `indique_srv_que_requiere_acceso` + inactiva la etiqueta `amb_hostname_dir_ip_texto`. Link del Word nuevo: confirmar si se adjuntó y se corrió.
 - No pedido (Valores OK en la revisión): Acción se ve "Crear" / "Eliminar" y Vigencia "Temporal" / "Permanente" por traducciones globales (arreglo con `\u200B`); "Si" sin tilde; textos con espacio final; las 3 policies con orden 100.
 
 ## 5. Pendientes generales
@@ -291,7 +293,8 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `t1_ajustes_planilla.js` | 4.15 | modifica | aplicado (atributos ref_ac no sirven en el portal) |
 | `t1_usuario_dominio_texto.js` | 4.15 | modifica (crea Script Include) | aplicado (SI 9210e11d3b73cb106977352eb3e45a49) |
 | `t2_usuario_dominio_y_caducidad.js` | 4.16 | modifica | dry run OK, falta false |
-| `win_pprod_hostname_y_adjunto.js` | 4.17 | modifica | pendiente dry run |
+| `win_pprod_hostname_y_adjunto.js` | 4.17 | modifica | aplicado (etiqueta luego reemplazada por ayuda) |
+| `win_pprod_hostname_como_ayuda.js` | 4.17 | modifica | pendiente dry run |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
