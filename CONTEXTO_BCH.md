@@ -198,7 +198,8 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 
 ### 4.16 Gestión de Cuenta con Alto Privilegio T2 (`c65920cf1b933ed058f65425604bcb62`) — EN CURSO
 - Misma revisión que T1: Usuario Dominio con username en el campo y Caducidad como Fecha. Formulario igual al de T1 (Usuario Dominio referencia, Rut y Nombre completo de solo lectura, Acción, Justificación, Proyecto).
-- `scripts/t2_usuario_dominio_y_caducidad.js` (**pendiente dry run**): busca las variables por texto (prefijo no confirmado), reutiliza `BCHUsuarioPorDominioAjax` (lo crea si no existe), Usuario Dominio → Texto, reescribe su onChange (marcador `T2_USUARIO_DOMINIO`) y Caducidad → Fecha.
+- Prefijo confirmado `u_gest_cta_altpriv_t2_`. Variables: usuario_dominio (ref), usuario_rut, usuario_nombre_completo (texto " Nombre completo" con espacio inicial), accion_requerida, indique_usuario_modificar, periodo_vigencia, caducidad_vigencia (Texto), descripcion_requerimiento, indique_usuario_habilitar (+ texto enriquecido), indique_usuario_eliminar, justificacion (una línea; en T1 es multilínea), proyecto (cuadro de selección), proyecto_nombre, adjuntar_archivo (inactiva). Orden 70/80/90/450 fuera de convención.
+- `scripts/t2_usuario_dominio_y_caducidad.js` (**dry run OK 07-10, falta false**; reutiliza el Script Include ya creado por T1): busca las variables por texto (prefijo no confirmado), reutiliza `BCHUsuarioPorDominioAjax` (lo crea si no existe), Usuario Dominio → Texto, reescribe su onChange (marcador `T2_USUARIO_DOMINIO`) y Caducidad → Fecha.
 - Pendiente: diagnóstico completo y planilla de T2 para el resto (orden, borrar valor, RUT).
 
 ## 5. Pendientes generales
@@ -278,8 +279,8 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `t0_orden_variables.js` | 4.14 | modifica | pendiente |
 | `t1_usuario_dominio_y_caducidad.js` | 4.15 | modifica | aplicado (caducidad ya es Fecha) |
 | `t1_ajustes_planilla.js` | 4.15 | modifica | aplicado (atributos ref_ac no sirven en el portal) |
-| `t1_usuario_dominio_texto.js` | 4.15 | modifica (crea Script Include) | dry run OK, falta false |
-| `t2_usuario_dominio_y_caducidad.js` | 4.16 | modifica | pendiente dry run |
+| `t1_usuario_dominio_texto.js` | 4.15 | modifica (crea Script Include) | aplicado (SI 9210e11d3b73cb106977352eb3e45a49) |
+| `t2_usuario_dominio_y_caducidad.js` | 4.16 | modifica | dry run OK, falta false |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
