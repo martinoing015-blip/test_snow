@@ -453,3 +453,4 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 - "8-5 weekdays excluding holidays" usa U.S. Holidays → NO sirve. Usar **Feriados CHILE** (0cd818111b6924501df3bb7f034bcb0a, 16 feriados 2026; calendario de feriados: día dentro = no hábil). Cargar 2027 a fin de año.
 - Nuevo: `scripts/cierre_auto_ritm_habiles.js` (lun-vie menos Feriados CHILE; propiedad opcional `bch.ciber.ritm.cierre.auto.feriados`; fecha de término = auditoría del cambio a state 3 → closed_at → sys_updated_on). Simulación: 19 de 40 se cerrarían al activarlo.
 - Diagnóstico solo lectura: `scripts/diag_cierre_auto_ritm.js` (dónde está el job, estados, calendarios/feriados, simulación continuo vs hábil).
+- Aplicar al job (queda INACTIVO): `scripts/actualizar_job_cierre_auto_ritm.js` (imprime respaldo del script anterior).
