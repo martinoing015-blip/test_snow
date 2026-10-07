@@ -154,6 +154,17 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - El usuario quiere cambiarle el nombre. Base y traducción es: "Habilitación de VPN para Colaborador Interno" (en el MAP de Wo Types figura como "Gestión VPN para Colaborador Interno"). Falta definir el nombre nuevo.
 - `scripts/buscar_uso_nombre_catalogo.js` (solo lectura) busca el nombre como texto en BR, Script Includes, notificaciones, SLA, reportes, client scripts, UI actions, propiedades, jobs, REST y Flows. La primera corrida se llenó de `EOFException` (ver aprendizajes); ya está corregido. **Volver a correrlo** y revisar cada uso antes de renombrar.
 
+### 4.14 Gestión de Cuenta con Alto Privilegio T0 (`1767b1041ba3761458f65425604bcb71`, prefijo `u_gest_cta_altpriv_t0_`, Flujo - Gestión_Cuenta_Alto_Privilegio) — POR COMPARAR CON REMEDY
+- Diagnóstico 07-10: 5 variables del ítem, todas obligatorias y en el mismo orden para las 3 acciones: Acción requerida (`crear_cuenta` / `modificar_privilegios_de_cuenta` / `eliminar_cuenta`), Nombre de la cuenta, Vigencia (`indefinida` / `definida`), Caducidad de la cuenta (Fecha 9), Indicar justificación. Set "Campos editables en consola" con orden 10000, al final (aquí está bien).
+- Policies: "Solo lectura" (orden 100, está completa) y "Mostrar -Caducidad de la cuenta" (orden 100, con vigencia=definida). Client script `onChange_caducidad_validar_90_dias`.
+- Observaciones:
+  - Vigencia se ve como Permanente / Temporal por la traducción global.
+  - Ninguna variable depende de la Acción: Eliminar también pide Vigencia y Caducidad.
+  - "Modificar privilegios de cuenta" no tiene traducción es (no afecta).
+  - Las dos policies tienen orden 100 (Solo lectura debería ir al final) y al nombre "Mostrar -Caducidad" le falta un espacio.
+  - El script de 90 días arma la fecha a mano asumiendo dd-mm-aaaa (falla si el formato del usuario es otro), tiene nombre fuera de convención y no tiene marcador.
+- Faltan capturas de Remedy (Crear / Modificar / Eliminar) y revisar qué variables usa el Flow (puede ser compartido con T1/T2).
+
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
 - Script de verificación solo lectura para 4.1, 4.2 y 4.8 (client scripts activos, estado de `clase_cta_unix`, texto de opciones de Vigencia).
