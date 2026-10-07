@@ -193,7 +193,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - `scripts/t1_ajustes_planilla.js` (**dry run OK 07-10, falta false y probar**; el anterior ya se aplicó):
   - Usuario Dominio solo con username en la lista (`ref_ac_columns=user_name`) y sin espacio inicial. **Si el campo sigue mostrando el nombre al elegir, plan B: variable de texto + GlideAjax (la planilla dice texto de una línea).**
   - "Rut" → "RUT". Caducidad → Fecha. Borrar valor en las policies "Mostrar". "Mostrar - Crear o Modificar cuenta". Orden de 100 en 100.
-- Resultado 07-10: en el portal la referencia **sigue mostrando el nombre** (los atributos `ref_ac_*` no cambian el display value de sys_user). Plan B → `scripts/t1_usuario_dominio_texto.js` (**pendiente dry run**): Usuario Dominio pasa a Texto (6), nuevo Script Include client callable `BCHUsuarioPorDominioAjax.getDatos(sysparm_user_name)` (user_name exacto o "usuario@…") y el onChange se reescribe con GlideAjax (`onChange - Llenar RUT y Nombre desde Usuario Dominio`, marcador `T1_USUARIO_DOMINIO`). Mismo riesgo de seguridad que BCHDatosUsuarioAjax (devuelve RUT de cualquier usuario).
+- Resultado 07-10: en el portal la referencia **sigue mostrando el nombre** (los atributos `ref_ac_*` no cambian el display value de sys_user). Plan B → `scripts/t1_usuario_dominio_texto.js` (**dry run OK 07-10, 1 RITM antiguo con sys_id; falta false y probar**): Usuario Dominio pasa a Texto (6), nuevo Script Include client callable `BCHUsuarioPorDominioAjax.getDatos(sysparm_user_name)` (user_name exacto o "usuario@…") y el onChange se reescribe con GlideAjax (`onChange - Llenar RUT y Nombre desde Usuario Dominio`, marcador `T1_USUARIO_DOMINIO`). Mismo riesgo de seguridad que BCHDatosUsuarioAjax (devuelve RUT de cualquier usuario).
 - No se toca: Proyecto es Sí/no (tipo 1; la planilla dice cuadro de selección, funciona igual). "Sí" se ve "Si" por la traducción global. RUT y Nombre no son obligatorios (la planilla dice Sí, pero son de solo lectura y autollenados).
 
 ## 5. Pendientes generales
@@ -273,7 +273,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `t0_orden_variables.js` | 4.14 | modifica | pendiente |
 | `t1_usuario_dominio_y_caducidad.js` | 4.15 | modifica | aplicado (caducidad ya es Fecha) |
 | `t1_ajustes_planilla.js` | 4.15 | modifica | aplicado (atributos ref_ac no sirven en el portal) |
-| `t1_usuario_dominio_texto.js` | 4.15 | modifica (crea Script Include) | pendiente dry run |
+| `t1_usuario_dominio_texto.js` | 4.15 | modifica (crea Script Include) | dry run OK, falta false |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
