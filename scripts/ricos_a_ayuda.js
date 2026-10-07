@@ -33,8 +33,11 @@ function trRec(id, field) {
 }
 // policies que muestran/ocultan cada variable (para comparar etiqueta vs destino)
 var POLS = {};
-var pa = new GlideRecord('catalog_ui_policy_action'); pa.addQuery('ui_policy.catalog_item', ITEM_ID); pa.addQuery('ui_policy.active', true); pa.addQuery('visible', '!=', 'ignore'); pa.query();
-while (pa.next()) { var k = (pa.getValue('catalog_variable') || '').replace('IO:', ''); (POLS[k] = POLS[k] || []).push(pa.ui_policy.short_description + ' (visible=' + pa.getValue('visible') + ')'); }
+var polIds = [], polNom = {};
+var pp = new GlideRecord('catalog_ui_policy'); pp.addQuery('catalog_item', ITEM_ID); pp.addActiveQuery(); pp.query();
+while (pp.next()) { polIds.push(pp.getUniqueValue()); polNom[pp.getUniqueValue()] = pp.getValue('short_description'); }
+var pa = new GlideRecord('catalog_ui_policy_action'); pa.addQuery('ui_policy', 'IN', polIds.join(',')); pa.addQuery('visible', '!=', 'ignore'); pa.query();
+while (pa.next()) { var k = (pa.getValue('catalog_variable') || '').replace('IO:', ''); (POLS[k] = POLS[k] || []).push(polNom[pa.getValue('ui_policy')] + ' (visible=' + pa.getValue('visible') + ')'); }
 
 // variables del ítem en orden
 var lista = [];
