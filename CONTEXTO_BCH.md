@@ -332,6 +332,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 ### 4.26 Divisional del previsto (para aprobaciones, ej. Permisos de Conexión RDP)
 - sys_user no tiene un campo "divisional". Propuesta: grupo **"Divisionales"** + Script Include **`BCHDivisional.getDivisional(user)`**, que sube por `manager` hasta el primer miembro del grupo. En el Flow se usa una Action "Obtener divisional" (paso de script, se crea a mano en Flow Designer); su output va a "Solicitar aprobación", con rama de respaldo si no encuentra.
 - Orden: 1) `crear_grupo_divisionales.js` (lista de divisionales: BCH, o candidatos por cargo). 2) `crear_bch_divisional.js`. 3) La Action. 4) `diag_aprobaciones_flow.js` del Flow de RDP para ver qué paso cambiar.
+- Decisión 07-10: **sin Script Include**; la lógica va en el paso Script de la Action (`scripts/action_obtener_divisional.js`). **Si no encuentra divisional → jefatura directa** (origen = 'jefe', nota de trabajo en el RITM). Si no tiene jefatura → grupo de respaldo.
 - Definir con BCH: si el previsto es divisional (¿él mismo o su jefatura?), la rama de respaldo y quién mantiene el grupo.
 
 ## 5. Pendientes generales
@@ -434,6 +435,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `cadena_jefaturas.js` | genérico | solo lectura | cadena de manager de un usuario, marca el divisional por cargo |
 | `crear_grupo_divisionales.js` | general | modifica | crea grupo Divisionales + miembros (pendiente lista) |
 | `crear_bch_divisional.js` | general | modifica | Script Include BCHDivisional.getDivisional (pendiente) |
+| `action_obtener_divisional.js` | 4.26 | código de Action | paso Script de la Action "Obtener divisional" (respaldo: jefatura directa) |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
