@@ -329,6 +329,11 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - " Excepción Perfil Matriz Cargo Perfil" (`719d11f8…`) tiene un espacio al inicio del nombre.
 - Los 12 catálogos de UASC ya tienen **XSOAR UASC** como Grupo de cumplimiento (cambiado por alguien después de 4.24). "Recursos Compartidos - Socofin" usa UASC - Socofin.
 
+### 4.26 Divisional del previsto (para aprobaciones, ej. Permisos de Conexión RDP)
+- sys_user no tiene un campo "divisional". Propuesta: grupo **"Divisionales"** + Script Include **`BCHDivisional.getDivisional(user)`**, que sube por `manager` hasta el primer miembro del grupo. En el Flow se usa una Action "Obtener divisional" (paso de script, se crea a mano en Flow Designer); su output va a "Solicitar aprobación", con rama de respaldo si no encuentra.
+- Orden: 1) `crear_grupo_divisionales.js` (lista de divisionales: BCH, o candidatos por cargo). 2) `crear_bch_divisional.js`. 3) La Action. 4) `diag_aprobaciones_flow.js` del Flow de RDP para ver qué paso cambiar.
+- Definir con BCH: si el previsto es divisional (¿él mismo o su jefatura?), la rama de respaldo y quién mantiene el grupo.
+
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
 - Script de verificación solo lectura para 4.1, 4.2 y 4.8 (client scripts activos, estado de `clase_cta_unix`, texto de opciones de Vigencia).
@@ -425,6 +430,10 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `aws_como_planilla.js` | 4.10 | modifica | pendiente dry run (como planilla Azure/OCI; confirmar con planilla AWS) |
 | `buscar_grupo_uasc.js` | 4.24 | solo lectura | corrido 07-10 |
 | `revisar_grupos_planilla.js` | 4.25 | solo lectura | corrido 07-10 |
+| `diag_aprobaciones_flow.js` | genérico (hoy RDP) | solo lectura | a quién apuntan las aprobaciones del Flow |
+| `cadena_jefaturas.js` | genérico | solo lectura | cadena de manager de un usuario, marca el divisional por cargo |
+| `crear_grupo_divisionales.js` | general | modifica | crea grupo Divisionales + miembros (pendiente lista) |
+| `crear_bch_divisional.js` | general | modifica | Script Include BCHDivisional.getDivisional (pendiente) |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
