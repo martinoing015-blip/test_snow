@@ -208,8 +208,8 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Plantilla Word recreada desde las capturas: `plantillas/Informe Solicitud de Ambiente.docx` (generador `plantillas/generar_informe_solicitud_ambiente.js`). El encabezado del banco va como franja de texto: si se tiene el original de Remedy, usar ese.
 - Diagnóstico 07-10: prefijo `u_gest_cta_srv_win_pprod_` (algunas con doble guion bajo: `__vigencia`, `__proyecto`…). Flujo B exclusivo; solo usa `peticion_para`. Petición para (31) autollena RUT / Nombres / Apellidos / Usuario de Dominio con `BCHDatosUsuarioAjax`.
   - Causa (1): `amb_hostname_dir_ip` es Texto (6) obligatorio con ayuda "Indique servidor(es)…" y rich_text; debía ser etiqueta.
-  - (2): el ítem **ya tiene adjunto el original** "Informe Solicitud de Ambiente - Base.docx" (`21c193233ba783106977352eb3e45a3f`); la traducción es ya tiene el link, la descripción base no.
-- `scripts/win_pprod_hostname_y_adjunto.js` (**pendiente dry run**): inactiva `amb_hostname_dir_ip`, crea etiqueta `amb_hostname_dir_ip_texto` (32) en el mismo orden y pone el link (`/sys_attachment.do`) en base y es.
+  - (2) 07-10: el original adjunto **no se puede descargar** → se usa el Word recreado `plantillas/Informe Solicitud de Ambiente.docx` (adjuntarlo al ítem y el script cambia el link). Antes: "Informe Solicitud de Ambiente - Base.docx" (`21c193233ba783106977352eb3e45a3f`); la traducción es ya tiene el link, la descripción base no.
+- `scripts/win_pprod_hostname_y_adjunto.js` (**pendiente dry run**): inactiva `amb_hostname_dir_ip`, crea etiqueta `amb_hostname_dir_ip_texto` (32) en el mismo orden y pone el link al Word nuevo (`/sys_attachment.do`) en base y es.
 - No pedido (Valores OK en la revisión): Acción se ve "Crear" / "Eliminar" y Vigencia "Temporal" / "Permanente" por traducciones globales (arreglo con `\u200B`); "Si" sin tilde; textos con espacio final; las 3 policies con orden 100.
 
 ## 5. Pendientes generales

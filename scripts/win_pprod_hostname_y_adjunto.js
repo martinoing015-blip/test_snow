@@ -4,8 +4,10 @@
  *    en Remedy es una etiqueta de texto enriquecido bajo "Indique servidor(es) que requiere acceso".
  *    → se inactiva la variable antigua (no se borra) y se crea la etiqueta
  *      u_gest_cta_srv_win_pprod_amb_hostname_dir_ip_texto (tipo 32) en el mismo orden.
- * 2) Descripción: el link al adjunto "Informe Solicitud de Ambiente - Base.docx" (ya adjunto al ítem)
- *    se pone también en la descripción base (hoy solo lo tiene la traducción es) y ambos quedan con /sys_attachment.do.
+ * 2) Descripción: el adjunto original ("Informe Solicitud de Ambiente - Base.docx") no se puede descargar.
+ *    Se usa el Word recreado (plantillas/Informe Solicitud de Ambiente.docx), que hay que ADJUNTAR ANTES al ítem
+ *    (registro sc_cat_item → clip). El link de la descripción base y de la traducción es pasa a apuntar a ese
+ *    archivo (/sys_attachment.do?sys_id=…). El adjunto antiguo no se borra.
  * Cuenta: ADMIN | DRY_RUN=true solo lectura | DRY_RUN=false MODIFICA DATOS
  * (scope Global, update set seleccionado, "Record for rollback?" marcado)
  */
@@ -15,7 +17,7 @@ var P = 'u_gest_cta_srv_win_pprod_';
 var OLD = P + 'amb_hostname_dir_ip';
 var NEW = P + 'amb_hostname_dir_ip_texto';
 var RICH = '<p>Ambiente / Hostname / Dirección IP</p>';
-var ARCHIVO = 'Informe Solicitud de Ambiente - Base.docx';
+var ARCHIVO = 'Informe Solicitud de Ambiente.docx';   // el Word nuevo, adjuntado al ítem
 var TEXTO_LINK = 'Informe Solicitud de Ambiente.docx';
 
 gs.print('DRY_RUN = ' + DRY_RUN);
@@ -48,12 +50,14 @@ else {
 gs.print('\n2) Descripción');
 var att = new GlideRecord('sys_attachment');
 att.addQuery('table_name', 'sc_cat_item'); att.addQuery('table_sys_id', ITEM_ID); att.addQuery('file_name', ARCHIVO); att.query();
-if (!att.next()) gs.print('❌ No encontré el adjunto "' + ARCHIVO + '" en el ítem');
+if (!att.next()) gs.print('❌ No encontré el adjunto "' + ARCHIVO + '" en el ítem: adjuntarlo primero (registro del ítem → clip)');
 else {
     var href = '/sys_attachment.do?sys_id=' + att.getUniqueValue();
     var link = '<a href="' + href + '" target="_blank" rel="noopener noreferrer"><strong>' + TEXTO_LINK + '</strong></a>';
     var arreglar = function (html) {
-        if (html.indexOf(att.getUniqueValue()) > -1) return html.replace(/href="sys_attachment\.do/g, 'href="/sys_attachment.do');
+        if (html.indexOf(href) > -1) return html;   // ya apunta al archivo nuevo
+        var re = /<a [^>]*sys_attachment\.do[^>]*>[\s\S]*?<\/a>/;   // link antiguo (al adjunto original)
+        if (re.test(html)) return html.replace(re, link);
         return html.replace(TEXTO_LINK, link);
     };
     var it = new GlideRecord('sc_cat_item'); it.get(ITEM_ID);
