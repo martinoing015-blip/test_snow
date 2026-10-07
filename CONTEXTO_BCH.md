@@ -293,6 +293,15 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Planilla 07-10: Acción (Otorgar/Modificar → Vigencia → Caducidad; Eliminar), **Indique cuenta T1 (texto, obligatoria)**, Descripción de la solicitud, célula. Vigencia sin "obligatorio" marcado en la planilla (se deja obligatoria, flag `VIGENCIA_OBLIGATORIA`). Revisión: falta Indique T1 y sobran campos (Proyecto…).
 - `scripts/az_como_planilla.js` (**dry run OK 07-10, falta false y probar**; planilla V2 igual; texto planilla en `planilla/azure.md`): inactiva colaborador, rol administrativo y Proyecto (+ su policy); activa cuenta T1 obligatoria; policies con borrar valor y nombres; onChange de Acción reescrito (`AZ_LIMPIAR_ACCION`, ya no borra Descripción); `\u200B` en Eliminar Acceso / Definida / Indefinida; orden de la planilla.
 
+### 4.23 Oracle Cloud Infrastructure (`aa0fe7a61bf37e10d4f1a756624bcbc2`, prefijo `oci_` sin `u_`, Flujo I - Oracle_Cloud_Infrastructure exclusivo) — EN CURSO
+- Planilla V2 igual a Azure: Acción (Otorgar/Modificar → Vigencia → Caducidad; Eliminar), Indique cuenta T1 (obligatoria), Descripción de la solicitud, célula. Revisión: eliminar Proyecto y las condicionales que sobran.
+- `scripts/oci_como_planilla.js` (**pendiente dry run**, derivado de `az_como_planilla.js`):
+  - Inactiva colaborador, rol a eliminar, rol administrativo, Posee T1 y Proyecto, con 5 policies.
+  - Cuenta T1 siempre visible y obligatoria.
+  - Vigencia y Caducidad con condición simple y borrar valor.
+  - onChange `OCI_LIMPIAR_ACCION`.
+  - `\u200B` en Eliminar Acceso / Definida / Indefinida; orden.
+
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
 - Script de verificación solo lectura para 4.1, 4.2 y 4.8 (client scripts activos, estado de `clase_cta_unix`, texto de opciones de Vigencia).
@@ -383,6 +392,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `verificar_gcp.js` | 4.20 | solo lectura | verificación (actualizar tras gcp_como_planilla) |
 | `imperva_servidor_fix.js` | 4.21 | modifica | aplicado 07-10 |
 | `az_como_planilla.js` | 4.22 | modifica | dry run OK, falta false (formulario exacto a la planilla) |
+| `oci_como_planilla.js` | 4.23 | modifica | pendiente dry run (formulario exacto a la planilla V2) |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
