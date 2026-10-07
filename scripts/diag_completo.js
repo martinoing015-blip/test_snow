@@ -5,8 +5,9 @@
  * opciones con traducción es, policies con condiciones IO: traducidas y sus acciones,
  * client scripts con código, Script Includes que llaman (GlideAjax) y Flow
  * (pasos, variables que usa, variables que no usa y otros catálogos con el mismo Flow).
+ * También: descripción del ítem (base y es), adjuntos del ítem y contenido de las etiquetas de texto enriquecido.
  */
-var ITEM_ID = '4adb81813bddc7902815757e53e45a22';
+var ITEM_ID = '716b40cf1b5ffad058f65425604bcb17';   // Gestión de cuenta en servidores Windows Pre-productivo
 var PRINT_CODE = true;
 
 var MAP = {};   // sys_id variable -> name
@@ -42,7 +43,9 @@ function printVar(v, origen) {
         ' | value=' + v.getValue('lookup_value') + ' | label=' + v.getValue('lookup_label'));
     if (v.getValue('attributes')) gs.print('      attributes: ' + v.getValue('attributes'));
     if (v.isValidField('read_only') && v.getValue('read_only') == '1') gs.print('      SOLO LECTURA (variable)');
-    if (v.getValue('help_text')) gs.print('      ayuda: ' + v.getValue('help_text'));
+    if (v.getValue('help_text')) gs.print('      ayuda: ' + v.getValue('help_text') + (v.isValidField('show_help') ? ' (show_help=' + v.getValue('show_help') + ')' : ''));
+    if (v.isValidField('example_text') && v.getValue('example_text')) gs.print('      texto de ejemplo: ' + v.getValue('example_text'));
+    if (v.isValidField('rich_text') && v.getValue('rich_text')) gs.print('      rich_text: ' + v.getValue('rich_text'));
     var c = new GlideRecord('question_choice');
     c.addQuery('question', id); c.orderBy('order'); c.query();
     while (c.next()) {
@@ -57,6 +60,13 @@ if (!item.get(ITEM_ID)) { gs.print('❌ No existe el ítem'); }
 else {
     gs.print('=== ' + item.getValue('name') + ' (' + ITEM_ID + ')');
     gs.print('Flow: ' + item.getDisplayValue('flow_designer_flow') + ' | Workflow: ' + item.getDisplayValue('workflow'));
+    gs.print('\n--- DESCRIPCIÓN (base)\n' + item.getValue('description'));
+    var dEs = trTxt('sc_cat_item', ITEM_ID, 'description');
+    gs.print('--- DESCRIPCIÓN (es)\n' + (dEs || '(sin traducción)'));
+    gs.print('\n--- ADJUNTOS DEL ÍTEM');
+    var att = new GlideRecord('sys_attachment'); att.addQuery('table_name', 'sc_cat_item'); att.addQuery('table_sys_id', ITEM_ID); att.query();
+    if (!att.hasNext()) gs.print('(ninguno)');
+    while (att.next()) gs.print('• ' + att.getValue('file_name') + ' | ' + att.getUniqueValue() + ' | ' + att.getValue('size_bytes') + ' bytes');
 
     // Mapa de nombres (ítem + sets) para traducir condiciones
     var sets = [];

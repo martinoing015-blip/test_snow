@@ -202,6 +202,12 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - `scripts/t2_usuario_dominio_y_caducidad.js` (**dry run OK 07-10, falta false**; reutiliza el Script Include ya creado por T1): busca las variables por texto (prefijo no confirmado), reutiliza `BCHUsuarioPorDominioAjax` (lo crea si no existe), Usuario Dominio → Texto, reescribe su onChange (marcador `T2_USUARIO_DOMINIO`) y Caducidad → Fecha.
 - Pendiente: diagnóstico completo y planilla de T2 para el resto (orden, borrar valor, RUT).
 
+### 4.17 Gestión de cuenta en servidores Windows Pre-productivo (`716b40cf1b5ffad058f65425604bcb17`) — EN CURSO
+- Planilla Remedy: Acción requerida (Otorgar / Modificar / Eliminar acceso), Nombre de usuario que requiere acceso (en AD Pre-productivo), Indique servidor(es) que requiere acceso (multilínea), "Ambiente / Hostname / Dirección IP" (etiqueta de texto enriquecido), Vigencia (Definida / Indefinida → Caducidad Vigencia, Fecha), Proyecto (Sí → nombre), Descripción detallada de la solicitud (multilínea). Grupo: Serv Windows Pre-Productivos.
+- Revisión pide 2 cosas: (1) en "Indique servidor(es) que requiere acceso" aparece el texto enriquecido como variable y al revés; (2) el adjunto "Informe Solicitud de Ambiente.docx" no está disponible en la descripción.
+- Plantilla Word recreada desde las capturas: `plantillas/Informe Solicitud de Ambiente.docx` (generador `plantillas/generar_informe_solicitud_ambiente.js`). El encabezado del banco va como franja de texto: si se tiene el original de Remedy, usar ese.
+- Pendiente: output de `scripts/diag_completo.js` (ahora también imprime la descripción, los adjuntos del ítem y el rich_text de las etiquetas) para armar el arreglo y el link del adjunto.
+
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
 - Script de verificación solo lectura para 4.1, 4.2 y 4.8 (client scripts activos, estado de `clase_cta_unix`, texto de opciones de Vigencia).
@@ -269,7 +275,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 ## 8. Índice de scripts (`scripts/`)
 | Script | Catálogo | Tipo | Estado |
 |---|---|---|---|
-| `diag_completo.js` | genérico (hoy 4adb8181…) | solo lectura | diag_catalogo + diag_flow en uno: usar en cada catálogo nuevo |
+| `diag_completo.js` | genérico (hoy 716b40cf…) | solo lectura | diag_catalogo + diag_flow en uno: usar en cada catálogo nuevo |
 | `diag_catalogo.js` | genérico (cambiar ITEM_ID) | solo lectura | usar en cada catálogo nuevo |
 | `buscar_uso_nombre_catalogo.js` | genérico (hoy VPN 4.13) | solo lectura | volver a correr |
 | `quitar_ninguno_variable.js` | genérico (hoy Renombrar Usuario) | modifica | en 4.12 no hizo falta (`include_none` ya en 0) |
