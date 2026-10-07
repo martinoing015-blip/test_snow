@@ -35,6 +35,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - **Requested For (31)** se autollena con el usuario conectado; para que parta vacía hace falta onLoad con `clearValue`. Si la variable es del ítem (no de un set), es más simple quitar el default `javascript:gs.getUserID()`.
 - **Tipos de variable**: 9 = Fecha, 10 = Fecha/hora.
 - **Reordenar variables**: al renumerar, recolocar también el `io_set_item.order` del ítem para que el set quede en la misma posición relativa (no toca el set).
+- **Referencia a sys_user en el portal**: siempre muestra el nombre (display value) en el campo; `ref_ac_columns` / `ref_ac_display_value=false` solo agregan columnas a la lista. Para que quede el username: variable de texto + GlideAjax.
 - `addQuery('question.cat_item', ...)` sobre question_choice NO funciona (campo inválido); filtrar por variable.
 - Scripts client callable (GlideAjax): si con usuario suplantado no responden, puede faltar ACL de client callable script include.
 - **"-- Ninguno --" en Opción múltiple (3)**: si se quita, el portal marca sola la primera opción. Para que parta vacía: onLoad con `g_form.clearValue(...)` que corra **solo en catálogo** (applies_catalog=true, RITM y tarea en false; si no, borra lo elegido en el RITM).
@@ -48,6 +49,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - ⚠️ **Riesgo de seguridad**: responde para cualquier `sysparm_user`; cualquier usuario logueado puede consultar el RUT de otro desde la consola. Opciones: responder solo si el consultado es el usuario conectado o si quien llama tiene rol; o validar catálogo de origen.
 - **Script Include `BCHSolMasCtasAplicacionAjax`** (client callable): mapa opción Remedy → aplicación de `u_plataforma_generica` (tipo 1) para llenar `aplicacion` en Solicitud Masiva.
 - **Widget `ciber_custom_number_spinner_1_25`** ("Ciber - Custom Number Spinner (1-25)", sys_id `3b0202d33b2bcb506977352eb3e45a94`): clon del de Estefi con mínimo 1 y asterisco fijo. Pendiente: soporte de solo lectura (ng-disabled) — probar en RITM con policy Solo lectura.
+- **Script Include `BCHUsuarioPorDominioAjax`** (client callable, 07-10): `getDatos(sysparm_user_name)` → JSON { encontrados, rut, nombre, user_name }. Mismo riesgo de seguridad que el anterior.
 - Mapeo `sys_user`: RUT = `employee_number`, usuario de dominio = `user_name` (cortar desde @), unidad = `department`.
 
 ## 4. Estado por catálogo
@@ -191,6 +193,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - `scripts/t1_ajustes_planilla.js` (**dry run OK 07-10, falta false y probar**; el anterior ya se aplicó):
   - Usuario Dominio solo con username en la lista (`ref_ac_columns=user_name`) y sin espacio inicial. **Si el campo sigue mostrando el nombre al elegir, plan B: variable de texto + GlideAjax (la planilla dice texto de una línea).**
   - "Rut" → "RUT". Caducidad → Fecha. Borrar valor en las policies "Mostrar". "Mostrar - Crear o Modificar cuenta". Orden de 100 en 100.
+- Resultado 07-10: en el portal la referencia **sigue mostrando el nombre** (los atributos `ref_ac_*` no cambian el display value de sys_user). Plan B → `scripts/t1_usuario_dominio_texto.js` (**pendiente dry run**): Usuario Dominio pasa a Texto (6), nuevo Script Include client callable `BCHUsuarioPorDominioAjax.getDatos(sysparm_user_name)` (user_name exacto o "usuario@…") y el onChange se reescribe con GlideAjax (`onChange - Llenar RUT y Nombre desde Usuario Dominio`, marcador `T1_USUARIO_DOMINIO`). Mismo riesgo de seguridad que BCHDatosUsuarioAjax (devuelve RUT de cualquier usuario).
 - No se toca: Proyecto es Sí/no (tipo 1; la planilla dice cuadro de selección, funciona igual). "Sí" se ve "Si" por la traducción global. RUT y Nombre no son obligatorios (la planilla dice Sí, pero son de solo lectura y autollenados).
 
 ## 5. Pendientes generales
@@ -269,7 +272,8 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `t0_vigencia_solo_crear.js` | 4.14 | modifica | aplicado |
 | `t0_orden_variables.js` | 4.14 | modifica | pendiente |
 | `t1_usuario_dominio_y_caducidad.js` | 4.15 | modifica | aplicado (caducidad ya es Fecha) |
-| `t1_ajustes_planilla.js` | 4.15 | modifica | dry run OK, falta false |
+| `t1_ajustes_planilla.js` | 4.15 | modifica | aplicado (atributos ref_ac no sirven en el portal) |
+| `t1_usuario_dominio_texto.js` | 4.15 | modifica (crea Script Include) | pendiente dry run |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
