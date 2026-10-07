@@ -2,7 +2,7 @@
  * Renombrar catálogos VPN (revisión: "Servicio reemplazado por nuevo servicio Gestión VPN …")
  *   "Habilitación de VPN para Colaborador Interno"    → "Gestión VPN para Colaborador Interno"
  *   "Habilitación de VPN para Filiales y Proveedores" → "Gestión VPN para Filiales y Proveedores"
- * 1) Busca cada ítem por nombre (base o traducción es).
+ * 1) Ítems por sys_id (por nombre se encontraba "Navegación Privilegiada" d0bdf1ef…, que tiene mal el nombre base).
  * 2) Busca el nombre actual como TEXTO en BR, Script Includes, notificaciones, SLA, reglas de asignación,
  *    reportes, client scripts, UI actions, propiedades, jobs, REST, transform y Flows.
  *    (Flow, policies, client scripts del ítem y Llenar Wo Types apuntan por sys_id: no se rompen.)
@@ -13,9 +13,9 @@
  */
 var DRY_RUN = true;
 var FORZAR = false;
-var CAMBIOS = [
-    ['Habilitación de VPN para Colaborador Interno', 'Gestión VPN para Colaborador Interno'],
-    ['Habilitación de VPN para Filiales y Proveedores', 'Gestión VPN para Filiales y Proveedores']
+var CAMBIOS = [   // [sys_id, nombre actual, nombre nuevo]
+    ['eeb095361b1336d0d4f1a756624bcb21', 'Habilitación de VPN para Colaborador Interno', 'Gestión VPN para Colaborador Interno'],
+    ['e37a279e1bd7f6d058f65425604bcbd6', 'Habilitación de VPN para Filiales y Proveedores', 'Gestión VPN para Filiales y Proveedores']
 ];
 
 gs.print('DRY_RUN = ' + DRY_RUN + ' | FORZAR = ' + FORZAR);
@@ -24,19 +24,13 @@ function trRec(id, field) {
     t.addQuery('tablename', 'sc_cat_item'); t.addQuery('documentkey', id); t.addQuery('fieldname', field); t.addQuery('language', 'es'); t.query();
     return t.next() ? t : null;
 }
-function buscarItem(nombre) {
-    var it = new GlideRecord('sc_cat_item'); it.addQuery('name', nombre); it.query();
-    if (it.next()) return it;
-    var t = new GlideRecord('sys_translated_text'); t.addQuery('tablename', 'sc_cat_item'); t.addQuery('fieldname', 'name'); t.addQuery('language', 'es'); t.addQuery('value', nombre); t.query();
-    if (t.next()) { var i2 = new GlideRecord('sc_cat_item'); if (i2.get(t.getValue('documentkey'))) return i2; }
-    return null;
-}
-
 // 1) Ítems y nombres a buscar
 var ITEMS = [];
 CAMBIOS.forEach(function (c) {
-    var it = buscarItem(c[0]);
-    if (!it) { gs.print('❌ No encontré "' + c[0] + '" (ni en base ni en traducción es)'); return; }
+    var it = new GlideRecord('sc_cat_item');
+    if (!it.get(c[0])) { gs.print('❌ No existe el ítem ' + c[0]); return; }
+    if (it.getValue('name') != c[1]) gs.print('⚠️ ' + c[0] + ' se llama "' + it.getValue('name') + '" (esperaba "' + c[1] + '"): revisar que sea el correcto');
+    c = [c[1], c[2]];
     var tn = trRec(it.getUniqueValue(), 'name'), nombres = [it.getValue('name')];
     if (tn && nombres.indexOf(tn.getValue('value')) == -1) nombres.push(tn.getValue('value'));
     if (nombres.indexOf(c[0]) == -1) nombres.push(c[0]);
