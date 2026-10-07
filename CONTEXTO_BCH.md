@@ -214,6 +214,25 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - 07-10: el usuario pide la ayuda en vez de etiqueta → `scripts/win_pprod_hostname_como_ayuda.js` (**pendiente dry run**): ayuda visible "Ambiente / Hostname / Dirección IP" en `indique_srv_que_requiere_acceso` + inactiva la etiqueta `amb_hostname_dir_ip_texto`. Link del Word nuevo: confirmar si se adjuntó y se corrió.
 - No pedido (Valores OK en la revisión): Acción se ve "Crear" / "Eliminar" y Vigencia "Temporal" / "Permanente" por traducciones globales (arreglo con `\u200B`); "Si" sin tilde; textos con espacio final; las 3 policies con orden 100.
 
+### 4.18 Gestión de Cumplimiento Interno (`fc23e1321bd336d0d4f1a756624bcbc5`, prefijo `u_gest_cump_int_`, Flujo - Gestión_Cumplimiento_Interno, exclusivo) — POR COMPARAR CON REMEDY
+- Diagnóstico 07-10:
+  - Tipo de requerimiento con 8 opciones: Auditoría / Controles compensatorios / Facultades / Listados de usuarios en aplicaciones y plataformas / SOX - ICN / Control de vigencia en BD / Revocar sesión de usuarios / Otros controles. **Los values son el mismo texto, con espacios y tildes, y el Flow compara este value en 4 ramas "Si" → no cambiar values.**
+  - Según el tipo:
+    - Controles compensatorios: Indique N° Ciclo, Indique cantidad de usuarios (texto) y ¿Aplicación/Plataforma KPE? (Sí/no).
+    - Revocar sesión: Indicar Usuarios (ayuda "separar por ;").
+    - Control de vigencia en BD: Entorno (On-Premise / Cloud) + Indique usuarios (ayuda "separados por comas").
+    - Otros controles: Indicar control.
+    - Auditoría, Facultades, Listados y SOX: solo Detalles del requerimiento (obligatorio).
+  - Sin descripción, sin set "Campos editables en consola" y sin client scripts.
+- Observaciones:
+  - Orden repetido (500 y 600 dos veces).
+  - Las 5 policies con orden 100 y nombres con espacio final; a "Revocar Sesion" le falta la tilde.
+  - Ninguna policy borra valor.
+  - Separador de usuarios distinto (";" vs ",").
+  - La ayuda de `indicar_usrs` termina con un salto de línea.
+  - Cantidad de usuarios es texto (¿número?).
+- Falta: planilla de Remedy y revisión.
+
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
 - Script de verificación solo lectura para 4.1, 4.2 y 4.8 (client scripts activos, estado de `clase_cta_unix`, texto de opciones de Vigencia).
