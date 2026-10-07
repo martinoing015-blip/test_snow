@@ -7,18 +7,36 @@
  * (scope Global, update set seleccionado, "Record for rollback?" marcado)
  */
 var DRY_RUN = true;
-var RITMS = ['RITM0010524', 'RITM0010627', 'RITM0011093'];   // números de RITM a probar
+var RITMS = ['RITM0011084'];   // números de RITM a probar
 
 var dias = parseInt(gs.getProperty('bch.ciber.ritm.cierre.auto.dias', '3'), 10);
 var feriadosId = gs.getProperty('bch.ciber.ritm.cierre.auto.feriados', '0cd818111b6924501df3bb7f034bcb0a');
-var feriados = new GlideSchedule(feriadosId);
+function cargarFeriados(id) {
+    // lee los tramos del calendario de feriados (cmn_schedule_span) → { 'yyyy-mm-dd': nombre }; los anuales quedan como 'mm-dd'
+    var set = {}, s = new GlideRecord('cmn_schedule_span');
+    s.addQuery('schedule', id); s.query();
+    while (s.next()) {
+        var ini = s.getValue('start_date_time') || '', fin = s.getValue('end_date_time') || ini;
+        if (ini.length < 8) continue;
+        var anual = s.getValue('repeat_type') == 'yearly';
+        var d = Date.UTC(+ini.substr(0, 4), +ini.substr(4, 2) - 1, +ini.substr(6, 2));
+        var f = Date.UTC(+fin.substr(0, 4), +fin.substr(4, 2) - 1, +fin.substr(6, 2));
+        if (fin.substr(9, 6) == '000000' && f > d) f -= 86400000;         // termina a las 00:00 del día siguiente
+        for (var g = 0; d <= f && g < 15; g++, d += 86400000) {
+            var key = new Date(d).toISOString().substr(0, 10);
+            set[anual ? key.substr(5) : key] = s.getValue('name') || 'feriado';
+        }
+    }
+    return set;
+}
+var FERIADOS = cargarFeriados(feriadosId);
 var NOMBRE_DIA = ['', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb', 'dom'];
 
 function motivoNoHabil(gdt) {
     if (gdt.getDayOfWeekLocalTime() > 5) return 'fin de semana';
-    var mediodia = new GlideDateTime();
-    mediodia.setDisplayValueInternal(gdt.getLocalDate().getValue() + ' 12:00:00');
-    return feriados.isInSchedule(mediodia) ? 'feriado' : '';
+    var key = gdt.getLocalDate().getValue();
+    var f = FERIADOS[key] || FERIADOS[key.substr(5)];
+    return f ? 'feriado (' + f + ')' : '';
 }
 function fechaTermino(ritm) {
     var a = new GlideRecord('sys_audit');
@@ -30,7 +48,9 @@ function fechaTermino(ritm) {
     return { f: new GlideDateTime(ritm.getValue('sys_updated_on')), o: 'sys_updated_on' };
 }
 
-gs.print('DRY_RUN = ' + DRY_RUN + ' | días hábiles: ' + dias + ' | feriados: ' + feriadosId);
+gs.print('DRY_RUN = ' + DRY_RUN + ' | días hábiles: ' + dias + ' | calendario de feriados: ' + feriadosId);
+var hoyKey = new GlideDateTime().getLocalDate().getValue();
+gs.print('Feriados cargados (' + Object.keys(FERIADOS).length + '), desde hoy: ' + Object.keys(FERIADOS).sort().filter(function (k) { return k.length == 5 || k >= hoyKey; }).map(function (k) { return k + ' ' + FERIADOS[k]; }).join(' | '));
 var ahora = new GlideDateTime();
 RITMS.forEach(function (num) {
     var gr = new GlideRecord('sc_req_item');
