@@ -255,7 +255,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - Diferencias con la planilla: 3 acciones (planilla 2), agrega colaborador/proveedor, Posee T1, rol a eliminar, Proyecto y RBAC; Indique cuenta T1 en la planilla va siempre y no es obligatoria; casilla "Consola **Admnistración**" (typo; planilla "Consola de administración").
   - Descripción: la base es igual a la planilla (sin link). La traducción es (la que ve el portal) tiene un link al catálogo T1 (`4adb8181…`), sin el rojo de la planilla.
 - Revisión 07-10: todo OK salvo "Falta variable 'Indique T1' agregada en la planilla excel" (descripción OK). Decisión: como la planilla en ese punto.
-- `scripts/gcp_indique_t1_como_planilla.js` (**pendiente dry run**): Indique cuenta T1 siempre visible y no obligatoria (la policy pasa a "Obligatorio - Indique cuenta T1 (Eliminación con T1)", solo obligatoria en Eliminación + interno + posee T1). Los onChange `GCP_LIMPIAR_ACCION` / `_COLAB` / `_POSEE` ya no la borran (POSEE se inactiva si queda vacío). Typo "Consola Admnistración" → "Consola de administración".
+- `scripts/gcp_indique_t1_como_planilla.js` (**dry run OK 07-10, falta false y probar**): Indique cuenta T1 siempre visible y no obligatoria (la policy pasa a "Obligatorio - Indique cuenta T1 (Eliminación con T1)", solo obligatoria en Eliminación + interno + posee T1). Los onChange `GCP_LIMPIAR_ACCION` / `_COLAB` / `_POSEE` ya no la borran (POSEE se inactiva si queda vacío). Typo "Consola Admnistración" → "Consola de administración".
 
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
@@ -340,7 +340,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `win_pprod_hostname_como_ayuda.js` | 4.17 | modifica | pendiente dry run |
 | `cump_int_ajustes_planilla.js` | 4.18 | modifica | pendiente dry run |
 | `ricos_a_ayuda.js` | genérico (hoy 4c1c1c44…) | modifica | dry run OK en 4c1c1c44 (3 etiquetas), falta false |
-| `gcp_indique_t1_como_planilla.js` | 4.20 | modifica | pendiente dry run |
+| `gcp_indique_t1_como_planilla.js` | 4.20 | modifica | dry run OK, falta false |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
