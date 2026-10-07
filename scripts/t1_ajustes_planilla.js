@@ -1,13 +1,13 @@
 /*
  * Gestión de Cuenta con Alto Privilegio T1 — ajustes según la planilla de Remedy
  * (incluye lo de t1_usuario_dominio_y_caducidad.js: si ya se corrió, esa parte sale "sin cambio")
+ * Las NOTAS de Habilitar y Desvincular MFA se quedan como texto de ayuda normal (no se tocan).
  * 1) Usuario Dominio: la lista muestra solo el username (ref_ac_columns=user_name, sin display value)
  *    y el texto pierde el espacio inicial (" Usuario Dominio" → "Usuario Dominio").
  * 2) "Rut" → "RUT" (como la planilla).
  * 3) Caducidad vigencia: Texto (6) → Fecha (9).
- * 4) (desactivado) NOTAS de Habilitar y Desvincular MFA se quedan como texto de ayuda normal.
- * 5) Policies "Mostrar - …": borrar valor al ocultar; "Mostrar - Crear cuenta" → "Mostrar - Crear o Modificar cuenta".
- * 6) Orden de variables de 100 en 100 como la planilla.
+ * 4) Policies "Mostrar - …": borrar valor al ocultar; "Mostrar - Crear cuenta" → "Mostrar - Crear o Modificar cuenta".
+ * 5) Orden de variables de 100 en 100 como la planilla.
  * En cada texto que cambia se actualiza también la traducción es (si existe).
  * Cuenta: ADMIN | DRY_RUN=true solo lectura | DRY_RUN=false MODIFICA DATOS
  * (scope Global, update set seleccionado, "Record for rollback?" marcado)
@@ -22,7 +22,6 @@ var ATTRS = {
     ref_ac_display_value: 'false'
 };
 var TEXTOS = { usuario_dominio: 'Usuario Dominio', usuario_rut: 'RUT' };
-var AYUDA_VISIBLE = [];   // las NOTAS se quedan como texto de ayuda normal (decisión 07-10)
 var ORDEN = ['usuario_dominio', 'usuario_rut', 'usuario_nombre_completo', 'accion_requerida',
     'indique_usuario_modificar', 'requiere_acceso_servidores', 'servidores_requiere_acceso', 'requiere_acceso_nubes',
     'texto_enriquecido', 'periodo_vigencia', 'caducidad_vigencia', 'indique_usuario_habilitar',
@@ -74,18 +73,8 @@ if (!c) gs.print('❌ No existe ' + P + 'caducidad_vigencia');
 else if (c.getValue('type') == '9') gs.print('   ya es Fecha');
 else { gs.print('   ' + c.getDisplayValue('type') + ' (' + c.getValue('type') + ') → Fecha (9)'); if (!DRY_RUN) { c.setValue('type', 9); c.update(); } }
 
-// 4) Ayuda siempre visible
-gs.print('\n4) Texto de ayuda siempre visible');
-AYUDA_VISIBLE.forEach(function (n) {
-    var v = varRec(n); if (!v) { gs.print('❌ No existe ' + P + n); return; }
-    var sh = v.getValue('show_help') == '1', sl = v.isValidField('show_help_on_load') ? v.getValue('show_help_on_load') == '1' : true;
-    if (sh && sl) { gs.print('   • ' + n + ': ya visible'); return; }
-    gs.print('   • ' + n + ': show_help ' + (sh ? 1 : 0) + ' → 1 | show_help_on_load ' + (sl ? 1 : 0) + ' → 1 | ayuda: "' + v.getValue('help_text') + '"');
-    if (!DRY_RUN) { v.setValue('show_help', true); if (v.isValidField('show_help_on_load')) v.setValue('show_help_on_load', true); v.update(); }
-});
-
-// 5) Policies
-gs.print('\n5) Policies');
+// 4) Policies
+gs.print('\n4) Policies');
 var NOMBRE = {}, mv = new GlideRecord('item_option_new'); mv.addQuery('cat_item', ITEM_ID); mv.query();
 while (mv.next()) NOMBRE['IO:' + mv.getUniqueValue()] = mv.getValue('name').replace(P, '');
 var p = new GlideRecord('catalog_ui_policy'); p.addQuery('catalog_item', ITEM_ID); p.addQuery('short_description', 'STARTSWITH', 'Mostrar - '); p.orderBy('order'); p.query();
@@ -104,8 +93,8 @@ while (p.next()) {
     }
 }
 
-// 6) Orden
-gs.print('\n6) Orden');
+// 5) Orden
+gs.print('\n5) Orden');
 ORDEN.forEach(function (n, i) {
     var ord = (i + 1) * 100, v = varRec(n);
     if (!v) { gs.print('❌ No existe ' + P + n); return; }
