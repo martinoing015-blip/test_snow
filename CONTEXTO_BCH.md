@@ -163,7 +163,9 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
   - "Modificar privilegios de cuenta" no tiene traducción es (no afecta).
   - Las dos policies tienen orden 100 (Solo lectura debería ir al final) y al nombre "Mostrar -Caducidad" le falta un espacio.
   - El script de 90 días arma la fecha a mano asumiendo dd-mm-aaaa (falla si el formato del usuario es otro), tiene nombre fuera de convención y no tiene marcador.
-- Faltan capturas de Remedy (Crear / Modificar / Eliminar) y revisar qué variables usa el Flow (puede ser compartido con T1/T2).
+- Remedy (planilla, Grupo Ciberseguridad / Cuentas TIER): Acción requerida (Crear cuenta / Modificar privilegios de cuenta / Eliminar cuenta), Nombre de la cuenta, Indicar justificación, todas obligatorias. **Vigencia (Indefinida / Definida) solo en Crear cuenta**; Definida → Caducidad de la cuenta (Fecha).
+- `scripts/t0_vigencia_solo_crear.js` (**pendiente dry run**): Vigencia deja de ser obligatoria en la variable, nueva policy "Mostrar - Vigencia" (accion=crear_cuenta, obligatoria, borrar valor), Caducidad con accion=crear_cuenta ^ vigencia=definida + borrar valor + nombre corregido, Solo lectura al final (300) y `\u200B` en Definida / Indefinida.
+- Pendiente: correr `scripts/diag_flow_catalogo.js` (¿el Flow usa la Vigencia? ¿lo comparten T1/T2?) y arreglar el formato de fecha del script de 90 días.
 
 ## 5. Pendientes generales
 - Aclarar Go Live (02-10-2026): ¿se movió? ¿qué update sets se promovieron? Riesgo de arrastrar cambios a medias de 4.7/4.8.
@@ -237,6 +239,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `quitar_ninguno_variable.js` | genérico (hoy Renombrar Usuario) | modifica | en 4.12 no hizo falta (`include_none` ya en 0) |
 | `renusr_tipo_cuenta_sin_seleccion.js` | 4.12 | modifica | dry run OK, falta false |
 | `diag_flow_catalogo.js` | genérico (hoy T0 4.14) | solo lectura | correr para T0 |
+| `t0_vigencia_solo_crear.js` | 4.14 | modifica | pendiente dry run |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
