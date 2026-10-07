@@ -1,23 +1,24 @@
 // ===========================================================
 // Cierre automático RITM — Instancia Ciberseguridad BCH
-// Terminado (3) -> Cerrado (4) tras N días HÁBILES (lun-vie, sin feriados)
-// Calendario hábil: propiedad bch.ciber.ritm.cierre.auto.calendario
-//   (sys_id de cmn_schedule con los feriados de Chile excluidos, ej. "8-5 weekdays excluding holidays")
+// Terminado (3) -> Cerrado (4) tras N días HÁBILES (lunes a viernes, sin feriados de Chile)
+// Días: propiedad bch.ciber.ritm.cierre.auto.dias (por defecto 3)
+// Feriados: calendario "Feriados CHILE" (cmn_schedule 0cd818111b6924501df3bb7f034bcb0a);
+//   se puede cambiar con la propiedad bch.ciber.ritm.cierre.auto.feriados
 // Fecha de término: cuando el RITM pasó a Terminado (auditoría); si no hay, closed_at; si no, sys_updated_on
-// Para probar como Background Script: DRY_RUN = true (solo lista). En el Scheduled Job: DRY_RUN = false
+// Ejemplo (3 días): terminado viernes 10:00 -> se cierra el miércoles a partir de las 10:00
+// Probar como Background Script con DRY_RUN = true (solo lista). En el Scheduled Job: DRY_RUN = false
 // ===========================================================
 var DRY_RUN = false;
 
 var dias = parseInt(gs.getProperty('bch.ciber.ritm.cierre.auto.dias', '3'), 10);
-var calId = gs.getProperty('bch.ciber.ritm.cierre.auto.calendario', '');
-var cal = calId ? new GlideSchedule(calId) : null;
+var feriadosId = gs.getProperty('bch.ciber.ritm.cierre.auto.feriados', '0cd818111b6924501df3bb7f034bcb0a');
+var feriados = new GlideSchedule(feriadosId);
 
 function esHabil(gdt) {
     if (gdt.getDayOfWeekLocalTime() > 5) return false;                    // sábado (6) y domingo (7)
-    if (!cal) return true;
     var mediodia = new GlideDateTime();
     mediodia.setDisplayValueInternal(gdt.getLocalDate().getValue() + ' 12:00:00');
-    return cal.isInSchedule(mediodia);                                    // feriado = fuera del calendario
+    return !feriados.isInSchedule(mediodia);                              // día dentro de "Feriados CHILE" = no hábil
 }
 function sumarHabiles(desde, n) {
     var d = new GlideDateTime(desde), k = 0, guard = 0;
@@ -34,23 +35,28 @@ function fechaTermino(ritm) {
     return new GlideDateTime(ritm.getValue('sys_updated_on'));
 }
 
-if (!cal) gs.warn('[Cierre auto RITM Ciber] Sin calendario hábil (propiedad bch.ciber.ritm.cierre.auto.calendario): solo se excluyen sábados y domingos, NO feriados');
+if (DRY_RUN) {
+    gs.print('DRY_RUN = true | días hábiles: ' + dias + ' | calendario de feriados: ' + feriadosId);
+    // muestra los días no hábiles (feriados de lunes a viernes) de los próximos 120 días, para confirmar que lee bien el calendario
+    var f = new GlideDateTime(), lista = [];
+    for (var i = 0; i < 120; i++) { f.addDaysLocalTime(1); if (f.getDayOfWeekLocalTime() <= 5 && !esHabil(f)) lista.push(f.getLocalDate().getDisplayValue()); }
+    gs.print('Feriados (lun-vie) detectados en los próximos 120 días: ' + (lista.join(', ') || '(ninguno ⚠️ revisar el calendario)'));
+}
 
 var ahora = new GlideDateTime();
 var gr = new GlideRecord('sc_req_item');
 gr.addEncodedQuery('state=3'); // RITM Terminados (instancia 100% Ciber)
 gr.query();
 
-var contador = 0;
+var contador = 0, pendientes = 0;
 while (gr.next()) {
     var fechaCierre = sumarHabiles(fechaTermino(gr), dias);
-    if (fechaCierre.before(ahora)) {
-        contador++;
-        if (DRY_RUN) { gs.print('• cerraría ' + gr.getValue('number') + ' (fecha de cierre hábil: ' + fechaCierre.getDisplayValue() + ')'); continue; }
-        gr.state = 4; // Cerrado
-        gr.work_notes = 'Requerimiento cerrado automáticamente por sistema (' + dias + ' días hábiles desde su término).';
-        gr.update();
-    }
+    if (!fechaCierre.before(ahora)) { pendientes++; continue; }
+    contador++;
+    if (DRY_RUN) { gs.print('• cerraría ' + gr.getValue('number') + ' (le tocaba desde ' + fechaCierre.getDisplayValue() + ')'); continue; }
+    gr.state = 4; // Cerrado
+    gr.work_notes = 'Requerimiento cerrado automáticamente por sistema (' + dias + ' días hábiles desde su término).';
+    gr.update();
 }
-gs.info('[Cierre auto RITM Ciber] ' + (DRY_RUN ? 'DRY RUN, se cerrarían: ' : 'Cerrados: ') + contador + ' | días hábiles: ' + dias);
-if (DRY_RUN) gs.print('Total: ' + contador + ' (DRY RUN, nada modificado)');
+gs.info('[Cierre auto RITM Ciber] ' + (DRY_RUN ? 'DRY RUN, se cerrarían: ' : 'Cerrados: ') + contador + ' | aún en plazo: ' + pendientes + ' | días hábiles: ' + dias);
+if (DRY_RUN) gs.print('Se cerrarían: ' + contador + ' | aún en plazo: ' + pendientes + ' (DRY RUN, nada modificado)');

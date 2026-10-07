@@ -448,5 +448,8 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 
 ### 4.27 Cierre automático RITM (Terminado 3 → Cerrado 4) en días hábiles
 - Script original: 24x7 (38fa64edc0a8016400f4a5724b0434b8) + sys_updated_on → días continuos y se reinicia con cualquier actualización.
-- Nuevo: `scripts/cierre_auto_ritm_habiles.js` (cuenta días hábiles lun-vie excluyendo feriados del calendario de la propiedad `bch.ciber.ritm.cierre.auto.calendario`; fecha de término = auditoría del cambio a state 3 → closed_at → sys_updated_on).
+- Job: **BCH - Auto-close completed RITM** (sysauto_script 50dccb2d3b71c3502815757e53e45a11), INACTIVO, diario 00:00. 40 RITM en Terminado (3=Terminado, 4=Cerrado OK).
+- Lógica vieja rota: el `schedule.add` 24x7 casi siempre devolvía la misma fecha → cerraba al tiro (sin esperar los 3 días) y medía desde sys_updated_on.
+- "8-5 weekdays excluding holidays" usa U.S. Holidays → NO sirve. Usar **Feriados CHILE** (0cd818111b6924501df3bb7f034bcb0a, 16 feriados 2026; calendario de feriados: día dentro = no hábil). Cargar 2027 a fin de año.
+- Nuevo: `scripts/cierre_auto_ritm_habiles.js` (lun-vie menos Feriados CHILE; propiedad opcional `bch.ciber.ritm.cierre.auto.feriados`; fecha de término = auditoría del cambio a state 3 → closed_at → sys_updated_on). Simulación: 19 de 40 se cerrarían al activarlo.
 - Diagnóstico solo lectura: `scripts/diag_cierre_auto_ritm.js` (dónde está el job, estados, calendarios/feriados, simulación continuo vs hábil).
