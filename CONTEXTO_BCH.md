@@ -202,6 +202,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Prefijo confirmado `u_gest_cta_altpriv_t2_`. Variables: usuario_dominio (ref), usuario_rut, usuario_nombre_completo (texto " Nombre completo" con espacio inicial), accion_requerida, indique_usuario_modificar, periodo_vigencia, caducidad_vigencia (Texto), descripcion_requerimiento, indique_usuario_habilitar (+ texto enriquecido), indique_usuario_eliminar, justificacion (una línea; en T1 es multilínea), proyecto (cuadro de selección), proyecto_nombre, adjuntar_archivo (inactiva). Orden 70/80/90/450 fuera de convención.
 - `scripts/t2_usuario_dominio_y_caducidad.js` (**dry run OK 07-10, falta false**; reutiliza el Script Include ya creado por T1): busca las variables por texto (prefijo no confirmado), reutiliza `BCHUsuarioPorDominioAjax` (lo crea si no existe), Usuario Dominio → Texto, reescribe su onChange (marcador `T2_USUARIO_DOMINIO`) y Caducidad → Fecha.
 - Pendiente: diagnóstico completo y planilla de T2 para el resto (orden, borrar valor, RUT).
+- ⚠️ 07-10: el usuario cree haber apuntado el **previsto (requested_for)** del Flow a Usuario Dominio. Si es así, al pasar la variable a Texto el previsto queda mal (aprobaciones y Wo Types dependen de él). Revisar con `scripts/verificar_usuario_dominio_flow.js` (T1 y T2). Si lo usa: agregar variable oculta de referencia llenada por el onChange (sys_id) y apuntar el Flow a ella.
 
 ### 4.17 Gestión de cuenta en servidores Windows Pre-productivo (`716b40cf1b5ffad058f65425604bcb17`) — EN CURSO
 - Planilla Remedy: Acción requerida (Otorgar / Modificar / Eliminar acceso), Nombre de usuario que requiere acceso (en AD Pre-productivo), Indique servidor(es) que requiere acceso (multilínea), "Ambiente / Hostname / Dirección IP" (etiqueta de texto enriquecido), Vigencia (Definida / Indefinida → Caducidad Vigencia, Fecha), Proyecto (Sí → nombre), Descripción detallada de la solicitud (multilínea). Grupo: Serv Windows Pre-Productivos.
@@ -393,6 +394,7 @@ Guardado en `scripts/diag_catalogo.js`. Cambiar `ITEM_ID`. Muestra variables del
 | `imperva_servidor_fix.js` | 4.21 | modifica | aplicado 07-10 |
 | `az_como_planilla.js` | 4.22 | modifica | dry run OK, falta false (formulario exacto a la planilla) |
 | `oci_como_planilla.js` | 4.23 | modifica | dry run OK, falta false (formulario exacto a la planilla V2) |
+| `verificar_usuario_dominio_flow.js` | 4.15 / 4.16 | solo lectura | ¿el Flow o algo usa usuario_dominio como referencia? |
 | `diag_wo_types_variables.js` | Action Llenar Wo Types | solo lectura | corrido OK |
 | `diag_multicloud_31c84063.js`, `diag_flow_multicloud.js` | 4.9 | solo lectura | — |
 | `multicloud_caducidad_fecha_hora.js` | 4.9 | modifica | aplicado |
