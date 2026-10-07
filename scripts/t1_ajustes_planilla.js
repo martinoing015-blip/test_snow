@@ -5,7 +5,7 @@
  *    y el texto pierde el espacio inicial (" Usuario Dominio" → "Usuario Dominio").
  * 2) "Rut" → "RUT" (como la planilla).
  * 3) Caducidad vigencia: Texto (6) → Fecha (9).
- * 4) NOTA de Habilitar y Desvincular MFA: texto de ayuda siempre visible.
+ * 4) (desactivado) NOTAS de Habilitar y Desvincular MFA se quedan como texto de ayuda normal.
  * 5) Policies "Mostrar - …": borrar valor al ocultar; "Mostrar - Crear cuenta" → "Mostrar - Crear o Modificar cuenta".
  * 6) Orden de variables de 100 en 100 como la planilla.
  * En cada texto que cambia se actualiza también la traducción es (si existe).
@@ -22,7 +22,7 @@ var ATTRS = {
     ref_ac_display_value: 'false'
 };
 var TEXTOS = { usuario_dominio: 'Usuario Dominio', usuario_rut: 'RUT' };
-var AYUDA_VISIBLE = ['indique_usuario_habilitar', 'indique_usuario_desvincular_mfa'];
+var AYUDA_VISIBLE = [];   // las NOTAS se quedan como texto de ayuda normal (decisión 07-10)
 var ORDEN = ['usuario_dominio', 'usuario_rut', 'usuario_nombre_completo', 'accion_requerida',
     'indique_usuario_modificar', 'requiere_acceso_servidores', 'servidores_requiere_acceso', 'requiere_acceso_nubes',
     'texto_enriquecido', 'periodo_vigencia', 'caducidad_vigencia', 'indique_usuario_habilitar',

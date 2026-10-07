@@ -190,7 +190,7 @@ Contexto para continuar en un chat nuevo. Proyecto BCH Ciberseguridad (Banco de 
 - Planilla Remedy recibida 07-10. Orden: Usuario Dominio, RUT, Nombre completo (solo lectura), Acción. Crear y Modificar: (Modificar: Indique usuario) Requiere acceso a servidores (Sí → Servidor(es)), ¿Requerirá acceso a nubes? (Sí/No, sin hijo), "(Solo para registro interno)", Periodo de vigencia (Definido → Caducidad, Fecha). Habilitar y Desvincular MFA: Indique usuario + NOTA. Eliminar: Indique usuario. Justificación, Proyecto (Sí → nombre), Adjuntar archivo (no obligatorio).
 - `scripts/t1_ajustes_planilla.js` (**pendiente dry run**; incluye el script anterior):
   - Usuario Dominio solo con username en la lista (`ref_ac_columns=user_name`) y sin espacio inicial. **Si el campo sigue mostrando el nombre al elegir, plan B: variable de texto + GlideAjax (la planilla dice texto de una línea).**
-  - "Rut" → "RUT". Caducidad → Fecha. Ayuda siempre visible en las NOTAS. Borrar valor en las policies "Mostrar". "Mostrar - Crear o Modificar cuenta". Orden de 100 en 100.
+  - "Rut" → "RUT". Caducidad → Fecha. Borrar valor en las policies "Mostrar". "Mostrar - Crear o Modificar cuenta". Orden de 100 en 100.
 - No se toca: Proyecto es Sí/no (tipo 1; la planilla dice cuadro de selección, funciona igual). "Sí" se ve "Si" por la traducción global. RUT y Nombre no son obligatorios (la planilla dice Sí, pero son de solo lectura y autollenados).
 
 ## 5. Pendientes generales
